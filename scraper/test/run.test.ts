@@ -7,6 +7,7 @@ import { describe, expect, it } from "vitest";
 import { runScrape } from "../src/run";
 
 const fixturesDir = path.join(__dirname, "fixtures/run");
+const brokenTemplateFixturesDir = path.join(__dirname, "fixtures/run-template-broken");
 const icalFixture = readFileSync(path.join(__dirname, "fixtures/sample.ics"), "utf-8");
 const templateHtmlFixture = readFileSync(
   path.join(__dirname, "fixtures/template-scraper.html"),
@@ -69,6 +70,45 @@ describe("runScrape", () => {
       expect(result.events).toHaveLength(0);
       expect(result.health).toHaveLength(2);
       expect(result.health.every((h) => h.consecutiveFailures === 1)).toBe(true);
+    } finally {
+      rmSync(outDir, { recursive: true, force: true });
+    }
+  });
+
+  it("records a broken template resolution instead of crashing the whole run", async () => {
+    const outDir = mkdtempSync(path.join(tmpdir(), "scrape-out-"));
+
+    try {
+      const result = await runScrape({
+        regionsDir: fixturesDir,
+        sourcesDir: brokenTemplateFixturesDir,
+        templatesDir: fixturesDir,
+        outDir,
+        fetchText: fakeFetchText,
+        now: () => "2026-07-03T12:00:00.000Z",
+      });
+
+      // The ical source has no template dependency and should still succeed;
+      // the template source's templateName points at a nonexistent file.
+      expect(result.events).toHaveLength(2);
+      expect(result.health).toHaveLength(2);
+
+      const icalHealth = result.health.find((h) => h.sourceId === "test-ical-source");
+      const brokenHealth = result.health.find(
+        (h) => h.sourceId === "test-broken-template-source",
+      );
+      expect(icalHealth?.status).toBe("ok");
+      expect(brokenHealth?.consecutiveFailures).toBe(1);
+      expect(brokenHealth?.status).toBe("ok"); // 1 failure doesn't hit the "broken" threshold yet
+
+      const writtenEvents = JSON.parse(
+        readFileSync(path.join(outDir, "events.json"), "utf-8"),
+      );
+      const writtenHealth = JSON.parse(
+        readFileSync(path.join(outDir, "health.json"), "utf-8"),
+      );
+      expect(writtenEvents).toHaveLength(2);
+      expect(writtenHealth).toHaveLength(2);
     } finally {
       rmSync(outDir, { recursive: true, force: true });
     }

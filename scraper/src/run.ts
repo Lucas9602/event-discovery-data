@@ -62,19 +62,19 @@ export async function runScrape(options: RunScrapeOptions): Promise<RunScrapeRes
   const health: SourceHealth[] = [];
 
   for (const source of sources) {
-    let resolvedSource = source;
-
-    const templateName = source.adapterConfig.templateName as string | undefined;
-    if (source.adapterType === "template-scraper" && templateName) {
-      const templatePath = path.join(options.templatesDir, `${templateName}.json`);
-      const template = JSON.parse(readFileSync(templatePath, "utf-8"));
-      resolvedSource = { ...source, adapterConfig: { ...source.adapterConfig, template } };
-    }
-
     const previous = previousHealth.get(source.id);
     let outcome = { success: false, eventCount: 0 };
 
     try {
+      let resolvedSource = source;
+
+      const templateName = source.adapterConfig.templateName as string | undefined;
+      if (source.adapterType === "template-scraper" && templateName) {
+        const templatePath = path.join(options.templatesDir, `${templateName}.json`);
+        const template = JSON.parse(readFileSync(templatePath, "utf-8"));
+        resolvedSource = { ...source, adapterConfig: { ...source.adapterConfig, template } };
+      }
+
       const adapter = getAdapter(source.adapterType);
       const rawEvents = await adapter.fetchEvents(resolvedSource, options.fetchText);
 

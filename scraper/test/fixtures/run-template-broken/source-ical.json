@@ -1,0 +1,10 @@
+{
+  "id": "test-ical-source",
+  "name": "Test iCal Source",
+  "url": "fixture://ical",
+  "region": "test-region",
+  "adapterType": "ical",
+  "adapterConfig": {},
+  "legal": { "basis": "public", "robotsChecked": "2026-07-03" },
+  "active": true
+}
