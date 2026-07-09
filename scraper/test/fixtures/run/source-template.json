@@ -1,0 +1,10 @@
+{
+  "id": "test-template-source",
+  "name": "Test Template Source",
+  "url": "fixture://template",
+  "region": "test-region",
+  "adapterType": "template-scraper",
+  "adapterConfig": { "templateName": "template" },
+  "legal": { "basis": "public", "robotsChecked": "2026-07-03" },
+  "active": true
+}

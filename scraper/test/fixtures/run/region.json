@@ -1,0 +1,5 @@
+{
+  "id": "test-region",
+  "name": "Testregion",
+  "center": { "lat": 48.03, "lon": 7.65 }
+}
