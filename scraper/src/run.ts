@@ -72,6 +72,7 @@ export async function runScrape(options: RunScrapeOptions): Promise<RunScrapeRes
     }
 
     const previous = previousHealth.get(source.id);
+    let outcome = { success: false, eventCount: 0 };
 
     try {
       const adapter = getAdapter(source.adapterType);
@@ -86,10 +87,12 @@ export async function runScrape(options: RunScrapeOptions): Promise<RunScrapeRes
         });
       }
 
-      health.push(updateHealth(previous, source.id, { success: true, eventCount: rawEvents.length }, nowIso));
+      outcome = { success: true, eventCount: rawEvents.length };
     } catch {
-      health.push(updateHealth(previous, source.id, { success: false, eventCount: 0 }, nowIso));
+      // outcome stays { success: false, eventCount: 0 }
     }
+
+    health.push(updateHealth(previous, source.id, outcome, nowIso));
   }
 
   const events = mergeEvents(dedupEntries, nowIso);
