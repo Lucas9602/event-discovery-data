@@ -1,4 +1,6 @@
+import { readFileSync, writeFileSync } from "node:fs";
 import { normalizeTitle } from "./normalize";
+import type { RawEvent } from "./types";
 
 export type GeocodeCache = Record<string, { lat: number; lon: number } | null>;
 
@@ -33,4 +35,36 @@ export async function geocodeWithCache(
   await sleep(NOMINATIM_DELAY_MS);
   cache[key] = result;
   return result;
+}
+
+export function loadGeocodeCache(cachePath: string): GeocodeCache {
+  try {
+    return JSON.parse(readFileSync(cachePath, "utf-8")) as GeocodeCache;
+  } catch {
+    return {};
+  }
+}
+
+export function saveGeocodeCache(cachePath: string, cache: GeocodeCache): void {
+  writeFileSync(cachePath, JSON.stringify(cache, null, 2));
+}
+
+export async function geocodeRawEvent(
+  rawEvent: RawEvent,
+  cache: GeocodeCache,
+  fetchText: (url: string) => Promise<string>,
+  sleep: (ms: number) => Promise<void>,
+): Promise<RawEvent> {
+  const location = rawEvent.location;
+  const hasCoords = typeof location?.lat === "number" && typeof location?.lon === "number";
+  const addressText = location?.name || location?.address;
+
+  if (hasCoords || !addressText) {
+    return rawEvent;
+  }
+
+  const coords = await geocodeWithCache(addressText, cache, fetchText, sleep);
+  if (!coords) return rawEvent;
+
+  return { ...rawEvent, location: { ...location, ...coords } };
 }
