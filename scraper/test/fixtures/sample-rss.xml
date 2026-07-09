@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Testgemeinde Veranstaltungen</title>
+    <item>
+      <title>Sommerfest Testgemeinde</title>
+      <description>Musik, Essen, Trinken auf dem Dorfplatz.</description>
+      <link>https://example.test/events/sommerfest</link>
+      <pubDate>Sat, 15 Aug 2026 18:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>
