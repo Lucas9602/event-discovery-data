@@ -7,6 +7,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   scrape:
@@ -41,3 +43,18 @@ jobs:
           git add data/events.json data/health.json
           git diff --cached --quiet || git commit -m "Update scraped events [skip ci]"
           git push
+
+  deploy-pages:
+    needs: scrape
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: data
+      - uses: actions/deploy-pages@v4
+        id: deployment
