@@ -1,0 +1,10 @@
+{
+  "itemSelector": ".event-item",
+  "titleSelector": ".event-title",
+  "dateSelector": ".event-date",
+  "dateFormat": "DD.MM.YYYY",
+  "descriptionSelector": ".event-description",
+  "locationSelector": ".event-location",
+  "linkSelector": ".event-link",
+  "linkAttr": "href"
+}
