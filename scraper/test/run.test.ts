@@ -17,6 +17,7 @@ const templateHtmlFixture = readFileSync(
 function fakeFetchText(url: string): Promise<string> {
   if (url === "fixture://ical") return Promise.resolve(icalFixture);
   if (url === "fixture://template") return Promise.resolve(templateHtmlFixture);
+  if (url.startsWith("https://nominatim.openstreetmap.org/")) return Promise.resolve("[]");
   throw new Error(`Unexpected fixture URL: ${url}`);
 }
 
@@ -30,7 +31,9 @@ describe("runScrape", () => {
         sourcesDir: fixturesDir,
         templatesDir: fixturesDir,
         outDir,
+        geocodeCachePath: path.join(outDir, "geocode-cache.json"),
         fetchText: fakeFetchText,
+        sleep: async () => {},
         now: () => "2026-07-03T12:00:00.000Z",
       });
 
@@ -63,7 +66,9 @@ describe("runScrape", () => {
         sourcesDir: fixturesDir,
         templatesDir: fixturesDir,
         outDir,
+        geocodeCachePath: path.join(outDir, "geocode-cache.json"),
         fetchText: failingFetch,
+        sleep: async () => {},
         now: () => "2026-07-03T12:00:00.000Z",
       });
 
@@ -84,7 +89,9 @@ describe("runScrape", () => {
         sourcesDir: brokenTemplateFixturesDir,
         templatesDir: fixturesDir,
         outDir,
+        geocodeCachePath: path.join(outDir, "geocode-cache.json"),
         fetchText: fakeFetchText,
+        sleep: async () => {},
         now: () => "2026-07-03T12:00:00.000Z",
       });
 
@@ -126,13 +133,44 @@ describe("runScrape", () => {
           sourcesDir: fixturesDir,
           templatesDir: fixturesDir,
           outDir,
+          geocodeCachePath: path.join(outDir, "geocode-cache.json"),
           fetchText: failingFetch,
+          sleep: async () => {},
           now: () => "2026-07-03T12:00:00.000Z",
         });
       }
 
       expect(result!.health.every((h) => h.consecutiveFailures === 3)).toBe(true);
       expect(result!.health.every((h) => h.status === "broken")).toBe(true);
+    } finally {
+      rmSync(outDir, { recursive: true, force: true });
+    }
+  });
+
+  it("geocodes an event location that has a name but no coordinates", async () => {
+    const outDir = mkdtempSync(path.join(tmpdir(), "scrape-out-"));
+    const geocodeFetch = (url: string) => {
+      if (url === "fixture://ical" || url === "fixture://template") {
+        return url === "fixture://ical" ? Promise.resolve(icalFixture) : Promise.resolve(templateHtmlFixture);
+      }
+      return Promise.resolve(JSON.stringify([{ lat: "48.03", lon: "7.65" }]));
+    };
+
+    try {
+      const result = await runScrape({
+        regionsDir: fixturesDir,
+        sourcesDir: fixturesDir,
+        templatesDir: fixturesDir,
+        outDir,
+        geocodeCachePath: path.join(outDir, "geocode-cache.json"),
+        fetchText: geocodeFetch,
+        sleep: async () => {},
+        now: () => "2026-07-03T12:00:00.000Z",
+      });
+
+      const geocoded = result.events.find((e) => e.location.name === "Marktplatz Testort");
+      expect(geocoded?.location.lat).toBeCloseTo(48.03);
+      expect(geocoded?.location.lon).toBeCloseTo(7.65);
     } finally {
       rmSync(outDir, { recursive: true, force: true });
     }

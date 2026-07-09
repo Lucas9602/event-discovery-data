@@ -7,6 +7,7 @@ import { templateScraperAdapter } from "./adapters/templateScraper";
 import { aiGenericAdapter } from "./adapters/aiGeneric";
 import { getAdapter, registerAdapter } from "./adapters/registry";
 import { type DedupEntry, mergeEvents } from "./dedup";
+import { geocodeRawEvent, loadGeocodeCache, saveGeocodeCache } from "./geocode";
 import { updateHealth } from "./health";
 import type { EventRecord, Region, Source, SourceHealth } from "./types";
 
@@ -27,7 +28,9 @@ export interface RunScrapeOptions {
   sourcesDir: string;
   templatesDir: string;
   outDir: string;
+  geocodeCachePath: string;
   fetchText: (url: string) => Promise<string>;
+  sleep: (ms: number) => Promise<void>;
   now: () => string;
 }
 
@@ -60,6 +63,7 @@ export async function runScrape(options: RunScrapeOptions): Promise<RunScrapeRes
 
   const dedupEntries: DedupEntry[] = [];
   const health: SourceHealth[] = [];
+  const geocodeCache = loadGeocodeCache(options.geocodeCachePath);
 
   for (const source of sources) {
     const previous = previousHealth.get(source.id);
@@ -79,8 +83,9 @@ export async function runScrape(options: RunScrapeOptions): Promise<RunScrapeRes
       const rawEvents = await adapter.fetchEvents(resolvedSource, options.fetchText);
 
       for (const rawEvent of rawEvents) {
+        const geocoded = await geocodeRawEvent(rawEvent, geocodeCache, options.fetchText, options.sleep);
         dedupEntries.push({
-          rawEvent,
+          rawEvent: geocoded,
           sourceId: source.id,
           adapterType: source.adapterType,
           region: source.region,
@@ -100,6 +105,7 @@ export async function runScrape(options: RunScrapeOptions): Promise<RunScrapeRes
   mkdirSync(options.outDir, { recursive: true });
   writeFileSync(path.join(options.outDir, "events.json"), JSON.stringify(events, null, 2));
   writeFileSync(path.join(options.outDir, "health.json"), JSON.stringify(health, null, 2));
+  saveGeocodeCache(options.geocodeCachePath, geocodeCache);
 
   return { events, health };
 }
@@ -111,11 +117,15 @@ async function main() {
     sourcesDir: path.join(root, "config/sources"),
     templatesDir: path.join(root, "config/templates"),
     outDir: path.join(root, "..", "data"),
+    geocodeCachePath: path.join(root, "..", "data", "geocode-cache.json"),
     fetchText: async (url) => {
-      const res = await fetch(url);
+      const res = await fetch(url, {
+        headers: { "User-Agent": "kaiserstuhl-event-scraper/0.1 (lucas_haas@web.de)" },
+      });
       if (!res.ok) throw new Error(`Fetch failed for ${url}: ${res.status}`);
       return res.text();
     },
+    sleep: (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
     now: () => new Date().toISOString(),
   });
   console.log(`Wrote ${result.events.length} events, ${result.health.length} health records.`);
