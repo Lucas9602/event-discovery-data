@@ -1,64 +1,64 @@
 [
   {
     "sourceId": "de-bw-bahlingen-gemeinde",
-    "lastRunAt": "2026-07-14T22:34:37.495Z",
-    "lastSuccessAt": "2026-07-14T22:34:37.495Z",
+    "lastRunAt": "2026-07-14T22:39:11.546Z",
+    "lastSuccessAt": "2026-07-14T22:39:11.546Z",
     "eventsFoundLastRun": 22,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-breisach-tourismus",
-    "lastRunAt": "2026-07-14T22:34:37.495Z",
-    "lastSuccessAt": "2026-07-14T22:34:37.495Z",
+    "lastRunAt": "2026-07-14T22:39:11.546Z",
+    "lastSuccessAt": "2026-07-14T22:39:11.546Z",
     "eventsFoundLastRun": 3,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-eichstetten-gemeinde",
-    "lastRunAt": "2026-07-14T22:34:37.495Z",
-    "lastSuccessAt": "2026-07-14T22:34:37.495Z",
+    "lastRunAt": "2026-07-14T22:39:11.546Z",
+    "lastSuccessAt": "2026-07-14T22:39:11.546Z",
     "eventsFoundLastRun": 43,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-emmendingen-stadt",
-    "lastRunAt": "2026-07-14T22:34:37.495Z",
-    "lastSuccessAt": "2026-07-14T22:34:37.495Z",
+    "lastRunAt": "2026-07-14T22:39:11.546Z",
+    "lastSuccessAt": "2026-07-14T22:39:11.546Z",
     "eventsFoundLastRun": 108,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-endingen-stadt",
-    "lastRunAt": "2026-07-14T22:34:37.495Z",
-    "lastSuccessAt": "2026-07-14T22:34:37.495Z",
+    "lastRunAt": "2026-07-14T22:39:11.546Z",
+    "lastSuccessAt": "2026-07-14T22:39:11.546Z",
     "eventsFoundLastRun": 523,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-musikverein-ihringen",
-    "lastRunAt": "2026-07-14T22:34:37.495Z",
-    "lastSuccessAt": "2026-07-14T22:34:37.495Z",
+    "lastRunAt": "2026-07-14T22:39:11.546Z",
+    "lastSuccessAt": "2026-07-14T22:39:11.546Z",
     "eventsFoundLastRun": 10,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-riegel-gemeinde",
-    "lastRunAt": "2026-07-14T22:34:37.495Z",
-    "lastSuccessAt": "2026-07-14T22:34:37.495Z",
+    "lastRunAt": "2026-07-14T22:39:11.546Z",
+    "lastSuccessAt": "2026-07-14T22:39:11.546Z",
     "eventsFoundLastRun": 149,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-vogtsburg-stadt",
-    "lastRunAt": "2026-07-14T22:34:37.495Z",
-    "lastSuccessAt": "2026-07-14T22:34:37.495Z",
+    "lastRunAt": "2026-07-14T22:39:11.546Z",
+    "lastSuccessAt": "2026-07-14T22:39:11.546Z",
     "eventsFoundLastRun": 10,
     "consecutiveFailures": 0,
     "status": "ok"
