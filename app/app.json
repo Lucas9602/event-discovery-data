@@ -32,7 +32,9 @@
         {
           "locationWhenInUsePermission": "Lokalfeste braucht deinen Standort, um Feste in deiner Nähe zu finden."
         }
-      ]
+      ],
+      "expo-font",
+      "expo-asset"
     ]
   }
 }

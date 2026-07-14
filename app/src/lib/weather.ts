@@ -6,15 +6,16 @@ export interface WeatherInfo {
 
 const FORECAST_HORIZON_DAYS = 14;
 
+// Ionicons glyph name (from @expo/vector-icons) — rendered as a vector icon, not emoji.
 function iconForCode(code: number): string {
-  if (code === 0) return "☀️";
-  if (code >= 1 && code <= 3) return "⛅";
-  if (code === 45 || code === 48) return "🌫️";
-  if (code >= 51 && code <= 67) return "🌧️";
-  if (code >= 71 && code <= 77) return "🌨️";
-  if (code >= 80 && code <= 82) return "🌦️";
-  if (code >= 95 && code <= 99) return "⛈️";
-  return "🌡️";
+  if (code === 0) return "sunny";
+  if (code >= 1 && code <= 3) return "partly-sunny";
+  if (code === 45 || code === 48) return "cloud-outline";
+  if (code >= 51 && code <= 67) return "rainy";
+  if (code >= 71 && code <= 77) return "snow";
+  if (code >= 80 && code <= 82) return "rainy-outline";
+  if (code >= 95 && code <= 99) return "thunderstorm";
+  return "cloud-outline";
 }
 
 export async function getWeather(

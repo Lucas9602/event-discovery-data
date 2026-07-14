@@ -13,7 +13,7 @@ describe("getWeather", () => {
   it("returns weather info with a mapped icon for a near-future date", async () => {
     const fetchText = jest.fn().mockResolvedValue(FORECAST_RESPONSE);
     const result = await getWeather(48.03, 7.65, isoDaysFromNow(3), fetchText);
-    expect(result).toEqual({ code: 0, maxTempC: 24.3, icon: "☀️" });
+    expect(result).toEqual({ code: 0, maxTempC: 24.3, icon: "sunny" });
     expect(fetchText).toHaveBeenCalledWith(expect.stringContaining("api.open-meteo.com/v1/forecast"));
   });
 
@@ -42,6 +42,6 @@ describe("getWeather", () => {
       .fn()
       .mockResolvedValue(JSON.stringify({ daily: { weathercode: [61], temperature_2m_max: [17] } }));
     const result = await getWeather(48.03, 7.65, isoDaysFromNow(1), fetchText);
-    expect(result?.icon).toBe("🌧️");
+    expect(result?.icon).toBe("rainy");
   });
 });

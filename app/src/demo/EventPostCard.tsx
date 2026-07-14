@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { useEffect, useMemo, useState, type ComponentProps } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { getWeather, type WeatherInfo } from "../lib/weather";
 import { exportToCalendar } from "./calendarExport";
@@ -56,17 +57,13 @@ export function EventPostCard({ event, likedBy, initiallyLiked, initiallyDabei }
         tint: { ...StyleSheet.absoluteFill, backgroundColor: "rgba(20,3,10,0.35)" },
         tag: { position: "absolute", top: 10, left: 10, backgroundColor: "rgba(255,255,255,0.25)", borderRadius: 5, paddingHorizontal: 8, paddingVertical: 3 },
         tagText: { color: "#fff", fontSize: 9.5, fontWeight: "700", textTransform: "uppercase" },
-        weatherTag: { position: "absolute", top: 10, right: 10, backgroundColor: "rgba(255,255,255,0.25)", borderRadius: 5, paddingHorizontal: 8, paddingVertical: 3 },
+        weatherTag: { position: "absolute", top: 10, right: 10, flexDirection: "row", alignItems: "center", gap: 3, backgroundColor: "rgba(255,255,255,0.25)", borderRadius: 5, paddingHorizontal: 8, paddingVertical: 3 },
         weatherTagText: { color: "#fff", fontSize: 11, fontWeight: "700" },
         mediaText: { position: "absolute", left: 14, right: 14, bottom: 12 },
         mediaTitle: { color: "#fff", fontSize: 18, fontWeight: "800" },
         mediaSub: { color: "rgba(255,255,255,0.9)", fontSize: 11, fontWeight: "500", marginTop: 2 },
         actions: { flexDirection: "row", alignItems: "center", paddingHorizontal: 12, paddingTop: 9, paddingBottom: 2 },
-        heart: { fontSize: 20, color: colors.accent },
-        heartActive: { color: "#b3123d" },
         actionIcon: { marginLeft: 10 },
-        actionIconText: { fontSize: 18, color: colors.textMuted },
-        actionIconActive: { color: colors.accent },
         spacer: { flex: 1 },
         dabeiBtn: { borderWidth: 1.5, borderColor: colors.accent, borderRadius: 14, paddingHorizontal: 12, paddingVertical: 4 },
         dabeiActive: { backgroundColor: colors.accent },
@@ -105,9 +102,9 @@ export function EventPostCard({ event, likedBy, initiallyLiked, initiallyDabei }
         </View>
         {weather ? (
           <View style={styles.weatherTag}>
-            <Text style={styles.weatherTagText}>
-              {weather.icon} {Math.round(weather.maxTempC)}°
-            </Text>
+            {/* weather.icon is an Ionicons glyph name computed by lib/weather.ts */}
+            <Ionicons name={weather.icon as ComponentProps<typeof Ionicons>["name"]} size={13} color="#fff" />
+            <Text style={styles.weatherTagText}>{Math.round(weather.maxTempC)}°</Text>
           </View>
         ) : null}
         <View style={styles.mediaText}>
@@ -118,16 +115,20 @@ export function EventPostCard({ event, likedBy, initiallyLiked, initiallyDabei }
 
       <View style={styles.actions}>
         <Pressable onPress={() => setLiked((v) => !v)} hitSlop={8}>
-          <Text style={[styles.heart, liked && styles.heartActive]}>{liked ? "♥" : "♡"}</Text>
+          <Ionicons name={liked ? "heart" : "heart-outline"} size={20} color={liked ? "#b3123d" : colors.accent} />
         </Pressable>
         <Pressable onPress={() => toggleFavorite(event)} hitSlop={8} style={styles.actionIcon}>
-          <Text style={[styles.actionIconText, favorited && styles.actionIconActive]}>🔖</Text>
+          <Ionicons
+            name={favorited ? "bookmark" : "bookmark-outline"}
+            size={18}
+            color={favorited ? colors.accent : colors.textMuted}
+          />
         </Pressable>
         <Pressable onPress={() => exportToCalendar(event)} hitSlop={8} style={styles.actionIcon}>
-          <Text style={styles.actionIconText}>📅</Text>
+          <Ionicons name="calendar-outline" size={18} color={colors.textMuted} />
         </Pressable>
         <Pressable onPress={() => shareEvent(event)} hitSlop={8} style={styles.actionIcon}>
-          <Text style={styles.actionIconText}>📤</Text>
+          <Ionicons name="share-outline" size={19} color={colors.textMuted} />
         </Pressable>
         <View style={styles.spacer} />
         <Pressable onPress={() => setDabei((v) => !v)} hitSlop={8} style={[styles.dabeiBtn, dabei && styles.dabeiActive]}>
