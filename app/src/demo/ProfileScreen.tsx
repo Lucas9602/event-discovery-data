@@ -1,16 +1,25 @@
-import { useMemo, useState } from "react";
-import { Pressable, StyleSheet, Switch, Text, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useMemo, useState } from "react";
+import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from "react-native";
+import { getEvents } from "../lib/getEvents";
+import type { EventRecord } from "../lib/types";
 import { demoEvents, demoFriends } from "./demoData";
+import { EventPostCard } from "./EventPostCard";
 import { LocationOnboarding } from "./LocationOnboarding";
+import { toDisplayEvent } from "./eventDisplay";
+import { useFavorites } from "./favorites";
 import { useLocation } from "./location";
 import { useTheme } from "./theme";
 
+const EVENTS_URL = "https://lucashaas.github.io/event-discovery-data/events.json";
 const INERT_SETTINGS = ["Benachrichtigungen", "Über die App"];
 
 export function ProfileScreen() {
   const { colors, isDark, toggle } = useTheme();
   const { origin, radiusMeters } = useLocation();
+  const { isFavorite } = useFavorites();
   const [editingLocation, setEditingLocation] = useState(false);
+  const [events, setEvents] = useState<EventRecord[]>([]);
   const styles = useMemo(
     () =>
       StyleSheet.create({
@@ -30,16 +39,23 @@ export function ProfileScreen() {
         item: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 16, paddingVertical: 11, borderBottomWidth: 1, borderBottomColor: colors.border },
         itemLabel: { fontSize: 12, color: colors.text },
         itemChevron: { color: colors.textMuted },
+        emptyFavorites: { fontSize: 12, color: colors.textMuted, paddingHorizontal: 16, paddingBottom: 16 },
       }),
     [colors],
   );
+
+  useEffect(() => {
+    getEvents((url) => fetch(url).then((res) => res.text()), AsyncStorage, EVENTS_URL).then(setEvents);
+  }, []);
 
   if (editingLocation) {
     return <LocationOnboarding showRadiusSlider onDone={() => setEditingLocation(false)} />;
   }
 
+  const favoriteEvents = events.filter((event) => isFavorite(event.id));
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.topbar}>
         <Text style={styles.word}>Profil</Text>
       </View>
@@ -77,6 +93,13 @@ export function ProfileScreen() {
         <Text style={styles.itemLabel}>Dark Mode</Text>
         <Switch value={isDark} onValueChange={toggle} />
       </View>
-    </View>
+
+      <Text style={styles.sectionTitle}>Meine Favoriten</Text>
+      {favoriteEvents.length === 0 ? (
+        <Text style={styles.emptyFavorites}>Noch keine Favoriten — tippe 🔖 auf einem Fest.</Text>
+      ) : (
+        favoriteEvents.map((event) => <EventPostCard key={event.id} event={toDisplayEvent(event)} />)
+      )}
+    </ScrollView>
   );
 }

@@ -3,6 +3,7 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { getWeather, type WeatherInfo } from "../lib/weather";
 import { exportToCalendar } from "./calendarExport";
 import type { DemoEvent, DemoFriend } from "./demoData";
+import { useFavorites } from "./favorites";
 import { shareEvent } from "./shareEvent";
 import { useTheme } from "./theme";
 
@@ -38,6 +39,8 @@ export function EventPostCard({ event, likedBy, initiallyLiked, initiallyDabei }
   const [liked, setLiked] = useState(Boolean(initiallyLiked));
   const [dabei, setDabei] = useState(Boolean(initiallyDabei));
   const [weather, setWeather] = useState<WeatherInfo | null>(null);
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const favorited = isFavorite(event.id);
 
   const { colors } = useTheme();
   const styles = useMemo(
@@ -63,6 +66,7 @@ export function EventPostCard({ event, likedBy, initiallyLiked, initiallyDabei }
         heartActive: { color: "#b3123d" },
         actionIcon: { marginLeft: 10 },
         actionIconText: { fontSize: 18, color: colors.textMuted },
+        actionIconActive: { color: colors.accent },
         spacer: { flex: 1 },
         dabeiBtn: { borderWidth: 1.5, borderColor: colors.accent, borderRadius: 14, paddingHorizontal: 12, paddingVertical: 4 },
         dabeiActive: { backgroundColor: colors.accent },
@@ -113,6 +117,9 @@ export function EventPostCard({ event, likedBy, initiallyLiked, initiallyDabei }
       <View style={styles.actions}>
         <Pressable onPress={() => setLiked((v) => !v)} hitSlop={8}>
           <Text style={[styles.heart, liked && styles.heartActive]}>{liked ? "♥" : "♡"}</Text>
+        </Pressable>
+        <Pressable onPress={() => toggleFavorite(event)} hitSlop={8} style={styles.actionIcon}>
+          <Text style={[styles.actionIconText, favorited && styles.actionIconActive]}>🔖</Text>
         </Pressable>
         <Pressable onPress={() => exportToCalendar(event)} hitSlop={8} style={styles.actionIcon}>
           <Text style={styles.actionIconText}>📅</Text>

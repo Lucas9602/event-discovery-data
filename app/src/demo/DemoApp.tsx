@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Platform, SafeAreaView, StyleSheet, View } from "react-native";
 import { FeedScreen } from "./FeedScreen";
 import { FriendsFeedScreen } from "./FriendsFeedScreen";
+import { FavoritesProvider } from "./favorites";
 import { LocationOnboarding } from "./LocationOnboarding";
 import { LocationProvider, useLocation } from "./location";
 import { MapScreen } from "./MapScreen";
@@ -13,7 +14,9 @@ export function DemoApp() {
   return (
     <ThemeProvider>
       <LocationProvider>
-        <DemoAppContent />
+        <FavoritesProvider>
+          <DemoAppContent />
+        </FavoritesProvider>
       </LocationProvider>
     </ThemeProvider>
   );

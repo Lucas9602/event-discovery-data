@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react-native";
+import { FavoritesProvider } from "../src/demo/favorites";
 import { LocationProvider } from "../src/demo/location";
 import { ProfileScreen } from "../src/demo/ProfileScreen";
 import { ThemeProvider } from "../src/demo/theme";
@@ -12,7 +13,9 @@ describe("ProfileScreen dark mode toggle", () => {
     await render(
       <ThemeProvider>
         <LocationProvider>
-          <ProfileScreen />
+          <FavoritesProvider>
+            <ProfileScreen />
+          </FavoritesProvider>
         </LocationProvider>
       </ThemeProvider>,
     );
@@ -24,7 +27,9 @@ describe("ProfileScreen dark mode toggle", () => {
     await render(
       <ThemeProvider>
         <LocationProvider>
-          <ProfileScreen />
+          <FavoritesProvider>
+            <ProfileScreen />
+          </FavoritesProvider>
         </LocationProvider>
       </ThemeProvider>,
     );
