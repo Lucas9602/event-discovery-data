@@ -49,7 +49,11 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
 
       scheduleReminder(event)
         .then((notificationId) => {
-          setFavorites((latest) => (event.id in latest ? { ...latest, [event.id]: notificationId } : latest));
+          setFavorites((latest) => {
+            if (event.id in latest) return { ...latest, [event.id]: notificationId };
+            if (notificationId) cancelReminder(notificationId).catch(() => {});
+            return latest;
+          });
         })
         .catch(() => {});
 

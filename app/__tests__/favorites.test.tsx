@@ -92,6 +92,35 @@ describe("FavoritesProvider", () => {
     expect(stored).toEqual({});
   });
 
+  it("cancels an orphaned reminder if the item is un-favorited before scheduling resolves", async () => {
+    let resolveSchedule: (id: string) => void;
+    (scheduleReminder as jest.Mock).mockReturnValue(
+      new Promise<string>((resolve) => {
+        resolveSchedule = resolve;
+      }),
+    );
+
+    await render(
+      <FavoritesProvider>
+        <Probe />
+      </FavoritesProvider>,
+    );
+
+    fireEvent.press(await screen.findByText("toggle"));
+    expect(await screen.findByText("fav:true")).toBeTruthy();
+
+    fireEvent.press(await screen.findByText("toggle"));
+    expect(await screen.findByText("fav:false")).toBeTruthy();
+    expect(cancelReminder).not.toHaveBeenCalled();
+
+    resolveSchedule!("notif-orphaned");
+
+    await waitFor(() => {
+      expect(cancelReminder).toHaveBeenCalledWith("notif-orphaned");
+    });
+    expect(await screen.findByText("fav:false")).toBeTruthy();
+  });
+
   it("loads a persisted favorite on mount", async () => {
     await AsyncStorage.setItem("demo.favorites", JSON.stringify({ "1": "notif-old" }));
     await render(
