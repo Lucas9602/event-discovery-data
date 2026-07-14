@@ -2,6 +2,8 @@ import { useMemo, useState } from "react";
 import { Platform, SafeAreaView, StyleSheet, View } from "react-native";
 import { FeedScreen } from "./FeedScreen";
 import { FriendsFeedScreen } from "./FriendsFeedScreen";
+import { LocationOnboarding } from "./LocationOnboarding";
+import { LocationProvider, useLocation } from "./location";
 import { MapScreen } from "./MapScreen";
 import { ProfileScreen } from "./ProfileScreen";
 import { TabBar, type DemoTab } from "./TabBar";
@@ -10,7 +12,9 @@ import { ThemeProvider, useTheme } from "./theme";
 export function DemoApp() {
   return (
     <ThemeProvider>
-      <DemoAppContent />
+      <LocationProvider>
+        <DemoAppContent />
+      </LocationProvider>
     </ThemeProvider>
   );
 }
@@ -18,6 +22,7 @@ export function DemoApp() {
 function DemoAppContent() {
   const [tab, setTab] = useState<DemoTab>("feed");
   const { colors } = useTheme();
+  const { origin } = useLocation();
   const styles = useMemo(
     () =>
       StyleSheet.create({
@@ -40,11 +45,17 @@ function DemoAppContent() {
 
   const screen = (
     <SafeAreaView style={styles.container}>
-      {tab === "feed" ? <FeedScreen /> : null}
-      {tab === "karte" ? <MapScreen /> : null}
-      {tab === "freunde" ? <FriendsFeedScreen /> : null}
-      {tab === "profil" ? <ProfileScreen /> : null}
-      <TabBar active={tab} onChange={setTab} />
+      {origin === null ? (
+        <LocationOnboarding />
+      ) : (
+        <>
+          {tab === "feed" ? <FeedScreen /> : null}
+          {tab === "karte" ? <MapScreen /> : null}
+          {tab === "freunde" ? <FriendsFeedScreen /> : null}
+          {tab === "profil" ? <ProfileScreen /> : null}
+          <TabBar active={tab} onChange={setTab} />
+        </>
+      )}
     </SafeAreaView>
   );
 
