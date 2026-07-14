@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useMemo, useState } from "react";
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { ActivityIndicator, FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from "react-native";
 import { filterEvents } from "../lib/filterEvents";
 import { getEvents } from "../lib/getEvents";
 import type { EventRecord } from "../lib/types";
@@ -17,6 +17,8 @@ export function FeedScreen() {
   const { colors } = useTheme();
   const { origin, radiusMeters, setRadiusMeters } = useLocation();
   const [events, setEvents] = useState<EventRecord[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const styles = useMemo(
     () =>
       StyleSheet.create({
@@ -32,9 +34,18 @@ export function FeedScreen() {
     [colors],
   );
 
-  useEffect(() => {
-    getEvents((url) => fetch(url).then((res) => res.text()), AsyncStorage, EVENTS_URL).then(setEvents);
+  const loadEvents = useCallback(() => {
+    return getEvents((url) => fetch(url).then((res) => res.text()), AsyncStorage, EVENTS_URL).then(setEvents);
   }, []);
+
+  useEffect(() => {
+    loadEvents().finally(() => setLoading(false));
+  }, [loadEvents]);
+
+  function onRefresh() {
+    setRefreshing(true);
+    loadEvents().finally(() => setRefreshing(false));
+  }
 
   const visibleEvents = filterEvents(events, origin ? { origin, radiusMeters } : {}).map(toDisplayEvent);
 
@@ -54,8 +65,13 @@ export function FeedScreen() {
         data={visibleEvents}
         keyExtractor={(e) => e.id}
         renderItem={({ item }) => <EventPostCard event={item} />}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.accent} />}
         ListEmptyComponent={
-          events.length === 0 ? (
+          loading ? (
+            <View style={styles.empty}>
+              <ActivityIndicator color={colors.accent} />
+            </View>
+          ) : events.length === 0 ? (
             <View style={styles.empty}>
               <Text style={styles.emptyText}>Keine Events verfügbar — später nochmal versuchen.</Text>
             </View>
