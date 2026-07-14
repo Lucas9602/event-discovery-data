@@ -26,6 +26,19 @@ const source: Source = {
   active: true,
 };
 
+const trailingTextDateHtml = readFileSync(
+  path.join(__dirname, "../fixtures/template-scraper-trailing-text-date.html"),
+  "utf-8",
+);
+const twoDigitYearHtml = readFileSync(
+  path.join(__dirname, "../fixtures/template-scraper-two-digit-year.html"),
+  "utf-8",
+);
+const attrDateHtml = readFileSync(
+  path.join(__dirname, "../fixtures/template-scraper-attr-date.html"),
+  "utf-8",
+);
+
 describe("templateScraperAdapter", () => {
   it("extracts events using the CSS selectors from adapterConfig.template", async () => {
     const events = await templateScraperAdapter.fetchEvents(source, async () => fixtureHtml);
@@ -50,5 +63,79 @@ describe("templateScraperAdapter", () => {
     await expect(
       templateScraperAdapter.fetchEvents(badSource, async () => fixtureHtml),
     ).rejects.toThrow("template-scraper requires adapterConfig.template");
+  });
+
+  it("extracts a DD.MM.YYYY date even with trailing text in the same element", async () => {
+    const template = {
+      itemSelector: ".item",
+      titleSelector: ".headline a",
+      dateSelector: ".date",
+      dateFormat: "DD.MM.YYYY",
+      descriptionSelector: ".text",
+      linkSelector: ".headline a",
+      linkAttr: "href",
+    };
+    const trailingTextSource: Source = {
+      ...source,
+      url: "https://example.test/veranstaltungen",
+      adapterConfig: { template },
+    };
+    const events = await templateScraperAdapter.fetchEvents(
+      trailingTextSource,
+      async () => trailingTextDateHtml,
+    );
+    expect(events).toHaveLength(1);
+    expect(events[0].title).toBe("Wanderung im Kaiserstuhl");
+    expect(events[0].start).toBe(new Date(2026, 6, 15).toISOString());
+  });
+
+  it("extracts a DD.MM.YY date with a weekday prefix, expanding the year to 20XX", async () => {
+    const template = {
+      itemSelector: ".cVeka_box_eventDate",
+      titleSelector: ".cVeka_box_title a",
+      dateSelector: ".cVeka_box_date",
+      dateFormat: "DD.MM.YY",
+      descriptionSelector: ".cVeka_box_teaser",
+      locationSelector: ".cVeka_box_location",
+      linkSelector: ".cVeka_box_title a",
+      linkAttr: "href",
+    };
+    const twoDigitYearSource: Source = {
+      ...source,
+      url: "https://example.test/veranstaltungen",
+      adapterConfig: { template },
+    };
+    const events = await templateScraperAdapter.fetchEvents(
+      twoDigitYearSource,
+      async () => twoDigitYearHtml,
+    );
+    expect(events).toHaveLength(1);
+    expect(events[0].title).toBe("Offener Nordic Walking Treff");
+    expect(events[0].start).toBe(new Date(2026, 6, 15).toISOString());
+  });
+
+  it("extracts an ISO date from an attribute when dateAttr is configured", async () => {
+    const template = {
+      itemSelector: ".tb-event-list-item",
+      titleSelector: ".tb-event-list-item__title",
+      dateSelector: ".tb-event-list-item__date",
+      dateFormat: "ISO",
+      dateAttr: "content",
+      locationSelector: ".tb-event-list-item__subtitle",
+      linkSelector: ".tb-event-list-item__link",
+      linkAttr: "href",
+    };
+    const attrDateSource: Source = {
+      ...source,
+      url: "https://example.test/veranstaltungen",
+      adapterConfig: { template },
+    };
+    const events = await templateScraperAdapter.fetchEvents(
+      attrDateSource,
+      async () => attrDateHtml,
+    );
+    expect(events).toHaveLength(1);
+    expect(events[0].title).toBe("Stadtfuehrung Breisach");
+    expect(events[0].start).toBe(new Date("2026-07-15").toISOString());
   });
 });

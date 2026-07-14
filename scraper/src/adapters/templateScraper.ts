@@ -6,20 +6,37 @@ interface TemplateConfig {
   itemSelector: string;
   titleSelector: string;
   dateSelector: string;
-  dateFormat: "DD.MM.YYYY";
+  dateFormat: "DD.MM.YYYY" | "DD.MM.YY" | "ISO";
+  dateAttr?: string;
   descriptionSelector?: string;
   locationSelector?: string;
   linkSelector?: string;
   linkAttr?: string;
 }
 
-function parseGermanDate(text: string): string {
-  const match = text.trim().match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+// Some CMS templates wrap the date in extra text (a weekday prefix, a
+// trailing time), so we search for the pattern rather than requiring an
+// exact match against the whole string.
+function parseGermanDate(text: string, format: "DD.MM.YYYY" | "DD.MM.YY"): string {
+  const yearPattern = format === "DD.MM.YY" ? "(\\d{2})" : "(\\d{4})";
+  const match = text.match(new RegExp(`(\\d{2})\\.(\\d{2})\\.${yearPattern}`));
   if (!match) {
-    throw new Error(`Cannot parse date "${text}" with format DD.MM.YYYY`);
+    throw new Error(`Cannot parse date "${text}" with format ${format}`);
   }
-  const [, day, month, year] = match;
-  return new Date(Number(year), Number(month) - 1, Number(day)).toISOString();
+  const [, day, month, rawYear] = match;
+  const year = format === "DD.MM.YY" ? 2000 + Number(rawYear) : Number(rawYear);
+  return new Date(year, Number(month) - 1, Number(day)).toISOString();
+}
+
+function parseDate(text: string, template: TemplateConfig): string {
+  if (template.dateFormat === "ISO") {
+    const date = new Date(text.trim());
+    if (Number.isNaN(date.getTime())) {
+      throw new Error(`Cannot parse date "${text}" with format ISO`);
+    }
+    return date.toISOString();
+  }
+  return parseGermanDate(text, template.dateFormat);
 }
 
 function resolveUrl(base: string, href: string): string {
@@ -42,7 +59,8 @@ export const templateScraperAdapter: EventAdapter = {
     $(template.itemSelector).each((_, el) => {
       const item = $(el);
       const title = item.find(template.titleSelector).first().text().trim();
-      const dateText = item.find(template.dateSelector).first().text().trim();
+      const dateEl = item.find(template.dateSelector).first();
+      const dateText = (template.dateAttr ? dateEl.attr(template.dateAttr) : dateEl.text())?.trim();
       if (!title || !dateText) return;
 
       const description = template.descriptionSelector
@@ -61,7 +79,7 @@ export const templateScraperAdapter: EventAdapter = {
       events.push({
         title,
         description,
-        start: parseGermanDate(dateText),
+        start: parseDate(dateText, template),
         location: locationName ? { name: locationName } : undefined,
         sourceUrl,
       });
