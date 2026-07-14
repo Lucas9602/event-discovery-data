@@ -1,0 +1,6 @@
+{
+  "id": "de-bw-breisach",
+  "name": "Breisach am Rhein",
+  "center": { "lat": 48.0308, "lon": 7.5764 },
+  "parentRegion": "de-bw-kaiserstuhl"
+}

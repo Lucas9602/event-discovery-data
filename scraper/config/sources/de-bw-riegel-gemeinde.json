@@ -1,0 +1,14 @@
+{
+  "id": "de-bw-riegel-gemeinde",
+  "name": "Gemeinde Riegel am Kaiserstuhl – Veranstaltungskalender",
+  "url": "https://www.gemeinde-riegel.de/de/Aktuelles/Veranstaltungen",
+  "region": "de-bw-riegel",
+  "adapterType": "template-scraper",
+  "adapterConfig": { "templateName": "ceasy-v1" },
+  "legal": {
+    "basis": "public",
+    "robotsChecked": "2026-07-15",
+    "notes": "Öffentlicher Amtskalender (cEasy CMS von hitcom new media gmbh), robots.txt hat keine Disallow-Einträge (leer)."
+  },
+  "active": true
+}

@@ -1,0 +1,14 @@
+{
+  "id": "de-bw-vogtsburg-stadt",
+  "name": "Stadt Vogtsburg im Kaiserstuhl – Veranstaltungskalender",
+  "url": "https://www.vogtsburg.de/de-de/freizeit-veranstaltungen/veranstaltungskalender",
+  "region": "de-bw-vogtsburg",
+  "adapterType": "template-scraper",
+  "adapterConfig": { "templateName": "aufwind-solutions-v1" },
+  "legal": {
+    "basis": "public",
+    "robotsChecked": "2026-07-15",
+    "notes": "Öffentlicher Amtskalender (aufwind-solutions CMS), robots.txt frei für diesen Pfad. Seite ist paginiert (~79 Seiten); aktuell wird nur Seite 1 (10 aktuellste Events) gescraped."
+  },
+  "active": true
+}

@@ -1,0 +1,14 @@
+{
+  "id": "de-bw-breisach-tourismus",
+  "name": "Tourismus Breisach am Rhein – Veranstaltungen",
+  "url": "https://www.tourismus.breisach.de/veranstaltungen",
+  "region": "de-bw-breisach",
+  "adapterType": "template-scraper",
+  "adapterConfig": { "templateName": "toubiz-v1" },
+  "legal": {
+    "basis": "public",
+    "robotsChecked": "2026-07-15",
+    "notes": "Öffentliche Tourismus-/Amtsseite (toubiz-Plattform), robots.txt blockiert nur /neos/ (Backend), unser Pfad frei."
+  },
+  "active": true
+}

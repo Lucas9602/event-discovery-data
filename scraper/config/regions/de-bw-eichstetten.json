@@ -1,0 +1,6 @@
+{
+  "id": "de-bw-eichstetten",
+  "name": "Eichstetten am Kaiserstuhl",
+  "center": { "lat": 48.0961, "lon": 7.6822 },
+  "parentRegion": "de-bw-kaiserstuhl"
+}

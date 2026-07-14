@@ -1,0 +1,6 @@
+{
+  "id": "de-bw-riegel",
+  "name": "Riegel am Kaiserstuhl",
+  "center": { "lat": 48.1667, "lon": 7.7000 },
+  "parentRegion": "de-bw-kaiserstuhl"
+}

@@ -1,0 +1,10 @@
+{
+  "itemSelector": "li.tb-event-list-item",
+  "titleSelector": ".tb-event-list-item__title",
+  "dateSelector": ".tb-event-list-item__date",
+  "dateFormat": "ISO",
+  "dateAttr": "content",
+  "locationSelector": ".tb-event-list-item__subtitle",
+  "linkSelector": ".tb-event-list-item__link",
+  "linkAttr": "href"
+}

@@ -1,0 +1,9 @@
+{
+  "itemSelector": "div.item[itemtype=\"http://schema.org/NewsArticle\"]",
+  "titleSelector": "h2[itemprop=headline] a",
+  "dateSelector": ".date.date-first",
+  "dateFormat": "DD.MM.YYYY",
+  "descriptionSelector": ".text",
+  "linkSelector": "h2[itemprop=headline] a",
+  "linkAttr": "href"
+}

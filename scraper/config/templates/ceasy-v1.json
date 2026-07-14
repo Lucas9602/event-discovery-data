@@ -1,0 +1,10 @@
+{
+  "itemSelector": ".cVeka_box_eventDate",
+  "titleSelector": ".cVeka_box_title a",
+  "dateSelector": ".cVeka_box_date",
+  "dateFormat": "DD.MM.YY",
+  "descriptionSelector": ".cVeka_box_teaser",
+  "locationSelector": ".cVeka_box_location",
+  "linkSelector": ".cVeka_box_title a",
+  "linkAttr": "href"
+}

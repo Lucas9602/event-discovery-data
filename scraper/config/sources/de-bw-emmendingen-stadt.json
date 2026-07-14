@@ -1,0 +1,14 @@
+{
+  "id": "de-bw-emmendingen-stadt",
+  "name": "Stadt Emmendingen – Veranstaltungskalender",
+  "url": "https://www.emmendingen.de/kultur-freizeit/veranstaltungen-1?tx_hwveranstaltung_list%5Baction%5D=multiIcalExport&tx_hwveranstaltung_list%5Bcontroller%5D=VeranstaltungFrontend&tx_hwveranstaltung_list%5BsearchString%5D=none",
+  "region": "de-bw-emmendingen",
+  "adapterType": "ical",
+  "adapterConfig": {},
+  "legal": {
+    "basis": "public",
+    "robotsChecked": "2026-07-15",
+    "notes": "Öffentlicher Amtskalender. robots.txt erlaubt den Pfad; iCal-Export-Query-Parameter (tx_hwveranstaltung_list) sind nicht durch tx_solr/type-Regeln blockiert."
+  },
+  "active": true
+}
