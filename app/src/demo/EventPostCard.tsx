@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { exportToCalendar } from "./calendarExport";
 import type { DemoEvent, DemoFriend } from "./demoData";
+import { shareEvent } from "./shareEvent";
 import { useTheme } from "./theme";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -98,6 +99,9 @@ export function EventPostCard({ event, likedBy, initiallyLiked, initiallyDabei }
         </Pressable>
         <Pressable onPress={() => exportToCalendar(event)} hitSlop={8} style={styles.actionIcon}>
           <Text style={styles.actionIconText}>📅</Text>
+        </Pressable>
+        <Pressable onPress={() => shareEvent(event)} hitSlop={8} style={styles.actionIcon}>
+          <Text style={styles.actionIconText}>📤</Text>
         </Pressable>
         <View style={styles.spacer} />
         <Pressable onPress={() => setDabei((v) => !v)} hitSlop={8} style={[styles.dabeiBtn, dabei && styles.dabeiActive]}>
