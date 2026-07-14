@@ -66,6 +66,10 @@ export function mergeEvents(entries: DedupEntry[], nowIso: string): EventRecord[
       );
       const canonical = sorted[0];
 
+      const inferenceText = [canonical.rawEvent.title, canonical.rawEvent.description]
+        .filter(Boolean)
+        .join(" ");
+
       records.push({
         id: computeEventId(canonical.rawEvent, canonical.region),
         title: canonical.rawEvent.title,
@@ -73,7 +77,7 @@ export function mergeEvents(entries: DedupEntry[], nowIso: string): EventRecord[
         start: canonical.rawEvent.start,
         end: canonical.rawEvent.end,
         location: canonical.rawEvent.location ?? {},
-        category: normalizeCategory(canonical.rawEvent.category),
+        category: normalizeCategory(canonical.rawEvent.category, inferenceText),
         sourceIds: group.map((e) => e.sourceId),
         sourceUrl: canonical.rawEvent.sourceUrl,
         region: canonical.region,

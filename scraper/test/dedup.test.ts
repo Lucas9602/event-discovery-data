@@ -77,14 +77,24 @@ describe("mergeEvents", () => {
     expect(merged).toHaveLength(2);
   });
 
-  it("sets lastSeenAt and defaults category to sonstiges", () => {
+  it("sets lastSeenAt and defaults category to sonstiges when nothing can be inferred", () => {
     const a: RawEvent = {
-      title: "Konzert",
+      title: "Generalversammlung",
       start: "2026-08-15T18:00:00.000Z",
       sourceUrl: "https://a.test/1",
     };
     const merged = mergeEvents([entry(a, "source-a", "ical")], now);
     expect(merged[0].lastSeenAt).toBe(now);
     expect(merged[0].category).toBe("sonstiges");
+  });
+
+  it("infers category from the title when the raw category is missing", () => {
+    const a: RawEvent = {
+      title: "Jahreskonzert des Musikvereins",
+      start: "2026-08-15T18:00:00.000Z",
+      sourceUrl: "https://a.test/1",
+    };
+    const merged = mergeEvents([entry(a, "source-a", "ical")], now);
+    expect(merged[0].category).toBe("konzert");
   });
 });

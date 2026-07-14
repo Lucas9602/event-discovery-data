@@ -20,9 +20,32 @@ export function dedupKey(title: string, isoDate: string): string {
   return `${normalizeTitle(title)}|${dateOnly}`;
 }
 
-export function normalizeCategory(raw: string | undefined): Category {
+// Non-AI adapters (ical, rss, schema-org, template-scraper) have no way to
+// report a category — the source data just doesn't carry one. Rather than
+// bucket everything as "sonstiges", infer from title/description keywords.
+// This is a heuristic, not a classifier: it only catches strong, common
+// German signal words, and unmatched text still falls back to "sonstiges".
+const CATEGORY_KEYWORDS: Array<[Category, RegExp]> = [
+  ["weinfest", /wein(fest|probe|tage|berg)|winzer/i],
+  ["dorffest", /dorffest|stadtfest|sommerfest|herbstfest|fr[uü]hlingsfest|str[aä]ßenfest/i],
+  ["vereins-sportfest", /sportfest|turnier|sch[uü]tzenfest/i],
+  ["konzert", /konzert|musical/i],
+  ["markt", /\bmarkt\b|weihnachtsmarkt|flohmarkt|adventsmarkt/i],
+];
+
+function inferCategory(text: string): Category {
+  for (const [category, pattern] of CATEGORY_KEYWORDS) {
+    if (pattern.test(text)) return category;
+  }
+  return "sonstiges";
+}
+
+export function normalizeCategory(raw: string | undefined, inferFrom?: string): Category {
   if (raw && (CATEGORIES as readonly string[]).includes(raw)) {
     return raw as Category;
+  }
+  if (inferFrom) {
+    return inferCategory(inferFrom);
   }
   return "sonstiges";
 }

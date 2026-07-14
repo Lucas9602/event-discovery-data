@@ -33,9 +33,44 @@ describe("normalizeCategory", () => {
     expect(normalizeCategory("konzert")).toBe("konzert");
   });
 
-  it("falls back to sonstiges for unknown or missing input", () => {
+  it("falls back to sonstiges for unknown or missing input with no text to infer from", () => {
     expect(normalizeCategory("Feuerwerk")).toBe("sonstiges");
     expect(normalizeCategory(undefined)).toBe("sonstiges");
+  });
+
+  it("infers weinfest from title/description keywords when raw category is missing", () => {
+    expect(normalizeCategory(undefined, "Winzerfest Ihringen")).toBe("weinfest");
+    expect(normalizeCategory(undefined, "Weinprobe bei der Genossenschaft")).toBe("weinfest");
+  });
+
+  it("infers dorffest from title/description keywords", () => {
+    expect(normalizeCategory(undefined, "Dorffest am Marktplatz")).toBe("dorffest");
+    expect(normalizeCategory(undefined, "Sommerfest der Gemeinde")).toBe("dorffest");
+  });
+
+  it("infers vereins-sportfest from title/description keywords", () => {
+    expect(normalizeCategory(undefined, "Fußballturnier der Jugendmannschaften")).toBe(
+      "vereins-sportfest",
+    );
+    expect(normalizeCategory(undefined, "Vereinsturnier SV Testhausen")).toBe(
+      "vereins-sportfest",
+    );
+  });
+
+  it("infers konzert from title/description keywords", () => {
+    expect(normalizeCategory(undefined, "Jahreskonzert des Musikvereins")).toBe("konzert");
+  });
+
+  it("infers markt from title/description keywords", () => {
+    expect(normalizeCategory(undefined, "Weihnachtsmarkt in der Altstadt")).toBe("markt");
+  });
+
+  it("prefers an explicit raw category over inference", () => {
+    expect(normalizeCategory("markt", "Jahreskonzert des Musikvereins")).toBe("markt");
+  });
+
+  it("falls back to sonstiges when no keyword matches, even with text provided", () => {
+    expect(normalizeCategory(undefined, "Generalversammlung des Fanclubs")).toBe("sonstiges");
   });
 });
 
