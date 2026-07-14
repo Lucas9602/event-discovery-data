@@ -11,7 +11,7 @@ import { useFavorites } from "./favorites";
 import { useLocation } from "./location";
 import { useTheme } from "./theme";
 
-const EVENTS_URL = "https://lucashaas.github.io/event-discovery-data/events.json";
+const EVENTS_URL = "https://lucas9602.github.io/event-discovery-data/events.json";
 const INERT_SETTINGS = ["Benachrichtigungen", "Über die App"];
 
 export function ProfileScreen() {
