@@ -1,5 +1,5 @@
-import { EventListScreen } from "./src/screens/EventListScreen";
+import { DemoApp } from "./src/demo/DemoApp";
 
 export default function App() {
-  return <EventListScreen />;
+  return <DemoApp />;
 }
