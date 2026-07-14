@@ -7,6 +7,15 @@ export interface EventStorage {
   setItem(key: string, value: string): Promise<void>;
 }
 
+function parseEvents(text: string): EventRecord[] | null {
+  try {
+    const parsed = JSON.parse(text);
+    return Array.isArray(parsed) ? (parsed as EventRecord[]) : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function getEvents(
   fetchText: (url: string) => Promise<string>,
   storage: EventStorage,
@@ -14,11 +23,16 @@ export async function getEvents(
 ): Promise<EventRecord[]> {
   try {
     const text = await fetchText(url);
-    await storage.setItem(CACHE_KEY, text);
-    return JSON.parse(text) as EventRecord[];
+    const parsed = parseEvents(text);
+    if (parsed) {
+      await storage.setItem(CACHE_KEY, text);
+      return parsed;
+    }
   } catch {
-    const cached = await storage.getItem(CACHE_KEY);
-    if (!cached) return [];
-    return JSON.parse(cached) as EventRecord[];
+    // network/fetch failure — fall through to cache below
   }
+
+  const cached = await storage.getItem(CACHE_KEY);
+  if (!cached) return [];
+  return parseEvents(cached) ?? [];
 }

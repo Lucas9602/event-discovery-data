@@ -45,4 +45,45 @@ describe("getEvents", () => {
 
     expect(events).toEqual([]);
   });
+
+  it("falls back to the existing good cache (unmodified) when the response is valid JSON but not an array", async () => {
+    const fetchText = jest.fn().mockResolvedValue("{}");
+    const storage = makeStorage({ "events-cache-v1": SAMPLE_EVENTS });
+
+    const events = await getEvents(fetchText, storage, "https://example.test/events.json");
+
+    expect(events).toHaveLength(1);
+    expect(events[0].title).toBe("Weinfest");
+    expect(await storage.getItem("events-cache-v1")).toBe(SAMPLE_EVENTS);
+  });
+
+  it("falls back to the existing good cache (unmodified) when the response is not valid JSON", async () => {
+    const fetchText = jest.fn().mockResolvedValue("<html>404 not found</html>");
+    const storage = makeStorage({ "events-cache-v1": SAMPLE_EVENTS });
+
+    const events = await getEvents(fetchText, storage, "https://example.test/events.json");
+
+    expect(events).toHaveLength(1);
+    expect(events[0].title).toBe("Weinfest");
+    expect(await storage.getItem("events-cache-v1")).toBe(SAMPLE_EVENTS);
+  });
+
+  it("returns an empty array and does not overwrite an existing good cache when there is no cache and the response is invalid", async () => {
+    const fetchText = jest.fn().mockResolvedValue("{}");
+    const storage = makeStorage();
+
+    const events = await getEvents(fetchText, storage, "https://example.test/events.json");
+
+    expect(events).toEqual([]);
+    expect(await storage.getItem("events-cache-v1")).toBeNull();
+  });
+
+  it("returns an empty array without throwing when the fetch fails and the cache is corrupted", async () => {
+    const fetchText = jest.fn().mockRejectedValue(new Error("offline"));
+    const storage = makeStorage({ "events-cache-v1": "not valid json" });
+
+    const events = await getEvents(fetchText, storage, "https://example.test/events.json");
+
+    expect(events).toEqual([]);
+  });
 });
