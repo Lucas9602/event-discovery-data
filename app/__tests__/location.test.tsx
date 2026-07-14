@@ -97,4 +97,26 @@ describe("LocationProvider", () => {
     expect(await screen.findByText("Testort")).toBeTruthy();
     expect(await screen.findByText("5000")).toBeTruthy();
   });
+
+  it("never persists default state before the persisted value finishes loading", async () => {
+    await AsyncStorage.setItem(
+      "demo.location",
+      JSON.stringify({ origin: { lat: 1, lon: 2, label: "Testort" }, radiusMeters: 5000 }),
+    );
+    (AsyncStorage.setItem as jest.Mock).mockClear();
+
+    await render(
+      <LocationProvider>
+        <Probe />
+      </LocationProvider>,
+    );
+    expect(await screen.findByText("Testort")).toBeTruthy();
+    expect(await screen.findByText("5000")).toBeTruthy();
+
+    const defaultPayload = JSON.stringify({ origin: null, radiusMeters: 25000 });
+    const clobberCalls = (AsyncStorage.setItem as jest.Mock).mock.calls.filter(
+      ([key, value]) => key === "demo.location" && value === defaultPayload,
+    );
+    expect(clobberCalls).toHaveLength(0);
+  });
 });

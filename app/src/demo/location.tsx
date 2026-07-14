@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 export interface LocationOrigin {
   lat: number;
@@ -27,6 +27,7 @@ const LocationContext = createContext<LocationContextValue | null>(null);
 export function LocationProvider({ children }: { children: ReactNode }) {
   const [origin, setOriginState] = useState<LocationOrigin | null>(null);
   const [radiusMeters, setRadiusMetersState] = useState(DEFAULT_RADIUS_METERS);
+  const hydrated = useRef(false);
 
   useEffect(() => {
     AsyncStorage.getItem(STORAGE_KEY)
@@ -36,10 +37,14 @@ export function LocationProvider({ children }: { children: ReactNode }) {
         if (parsed.origin) setOriginState(parsed.origin);
         if (typeof parsed.radiusMeters === "number") setRadiusMetersState(parsed.radiusMeters);
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => {
+        hydrated.current = true;
+      });
   }, []);
 
   useEffect(() => {
+    if (!hydrated.current) return;
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ origin, radiusMeters })).catch(() => {});
   }, [origin, radiusMeters]);
 
