@@ -1,5 +1,6 @@
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import { icalAdapter } from "./adapters/ical";
 import { rssAdapter } from "./adapters/rss";
 import { schemaOrgAdapter } from "./adapters/schemaOrg";
@@ -131,7 +132,10 @@ async function main() {
   console.log(`Wrote ${result.events.length} events, ${result.health.length} health records.`);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// String-concatenating a file:// prefix onto process.argv[1] never matches
+// import.meta.url on Windows (backslashes, missing host slash) — normalize
+// both through the URL constructor instead.
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   main().catch((err) => {
     console.error(err);
     process.exitCode = 1;
