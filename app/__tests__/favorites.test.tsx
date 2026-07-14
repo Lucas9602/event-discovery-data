@@ -57,6 +57,13 @@ describe("FavoritesProvider", () => {
   });
 
   it("toggling on marks it favorited, schedules a reminder, and persists it", async () => {
+    let resolveSchedule: (id: string) => void;
+    (scheduleReminder as jest.Mock).mockReturnValue(
+      new Promise<string>((resolve) => {
+        resolveSchedule = resolve;
+      }),
+    );
+
     await render(
       <FavoritesProvider>
         <Probe />
@@ -66,6 +73,8 @@ describe("FavoritesProvider", () => {
     expect(await screen.findByText("fav:true")).toBeTruthy();
     expect(scheduleReminder).toHaveBeenCalledWith(EVENT);
 
+    resolveSchedule!("notif-1");
+
     await waitFor(async () => {
       const stored = JSON.parse((await AsyncStorage.getItem("demo.favorites")) ?? "{}");
       expect(stored).toEqual({ "1": { notificationId: "notif-1", start: EVENT.start } });
@@ -73,12 +82,21 @@ describe("FavoritesProvider", () => {
   });
 
   it("toggling off removes it, cancels the reminder, and persists the removal", async () => {
+    let resolveSchedule: (id: string) => void;
+    (scheduleReminder as jest.Mock).mockReturnValue(
+      new Promise<string>((resolve) => {
+        resolveSchedule = resolve;
+      }),
+    );
+
     await render(
       <FavoritesProvider>
         <Probe />
       </FavoritesProvider>,
     );
     fireEvent.press(await screen.findByText("toggle"));
+    expect(await screen.findByText("fav:true")).toBeTruthy();
+    resolveSchedule!("notif-1");
     await waitFor(async () => {
       const stored = JSON.parse((await AsyncStorage.getItem("demo.favorites")) ?? "{}");
       expect(stored["1"]).toEqual({ notificationId: "notif-1", start: EVENT.start });
