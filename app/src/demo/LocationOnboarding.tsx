@@ -15,7 +15,9 @@ function formatCoordLabel(lat: number, lon: number): string {
 }
 
 function fetchText(url: string): Promise<string> {
-  return fetch(url).then((res) => res.text());
+  return fetch(url, { headers: { "User-Agent": "kaiserstuhl-event-app/0.1 (lucas_haas@web.de)" } }).then((res) =>
+    res.text(),
+  );
 }
 
 interface LocationOnboardingProps {
