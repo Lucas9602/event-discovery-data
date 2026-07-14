@@ -32,7 +32,7 @@ export function MapScreen() {
       <View style={styles.map}>
         <Image
           source={{ uri: "https://staticmap.openstreetmap.de/staticmap.php?center=48.03,7.65&zoom=12&size=600x800&maptype=mapnik" }}
-          style={StyleSheet.absoluteFillObject}
+          style={StyleSheet.absoluteFill}
           resizeMode="cover"
         />
         {demoEvents.map((event, i) => (

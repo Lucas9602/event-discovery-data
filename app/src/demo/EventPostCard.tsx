@@ -53,7 +53,7 @@ export function EventPostCard({ event, likedBy, initiallyLiked, initiallyDabei }
         name: { fontSize: 12, fontWeight: "600", color: colors.text },
         time: { fontSize: 10.5, color: colors.textMuted },
         media: { aspectRatio: 1, position: "relative", overflow: "hidden" },
-        tint: { ...StyleSheet.absoluteFillObject, backgroundColor: "rgba(20,3,10,0.35)" },
+        tint: { ...StyleSheet.absoluteFill, backgroundColor: "rgba(20,3,10,0.35)" },
         tag: { position: "absolute", top: 10, left: 10, backgroundColor: "rgba(255,255,255,0.25)", borderRadius: 5, paddingHorizontal: 8, paddingVertical: 3 },
         tagText: { color: "#fff", fontSize: 9.5, fontWeight: "700", textTransform: "uppercase" },
         weatherTag: { position: "absolute", top: 10, right: 10, backgroundColor: "rgba(255,255,255,0.25)", borderRadius: 5, paddingHorizontal: 8, paddingVertical: 3 },
@@ -80,7 +80,9 @@ export function EventPostCard({ event, likedBy, initiallyLiked, initiallyDabei }
   useEffect(() => {
     const { lat, lon } = event.location;
     if (typeof lat !== "number" || typeof lon !== "number") return;
-    getWeather(lat, lon, event.start, (url) => fetch(url).then((res) => res.text())).then(setWeather);
+    getWeather(lat, lon, event.start, (url) => fetch(url).then((res) => res.text()))
+      .then(setWeather)
+      .catch(() => {});
   }, [event.location.lat, event.location.lon, event.start]);
 
   return (
@@ -96,7 +98,7 @@ export function EventPostCard({ event, likedBy, initiallyLiked, initiallyDabei }
       </View>
 
       <View style={styles.media}>
-        <Image source={{ uri: event.image }} style={StyleSheet.absoluteFillObject} resizeMode="cover" />
+        <Image source={{ uri: event.image }} style={StyleSheet.absoluteFill} resizeMode="cover" />
         <View style={styles.tint} />
         <View style={styles.tag}>
           <Text style={styles.tagText}>{CATEGORY_LABELS[event.category] ?? event.category}</Text>
