@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { getWeather, type WeatherInfo } from "../lib/weather";
 import { exportToCalendar } from "./calendarExport";
 import type { DemoEvent, DemoFriend } from "./demoData";
 import { shareEvent } from "./shareEvent";
@@ -36,6 +37,7 @@ interface EventPostCardProps {
 export function EventPostCard({ event, likedBy, initiallyLiked, initiallyDabei }: EventPostCardProps) {
   const [liked, setLiked] = useState(Boolean(initiallyLiked));
   const [dabei, setDabei] = useState(Boolean(initiallyDabei));
+  const [weather, setWeather] = useState<WeatherInfo | null>(null);
 
   const { colors } = useTheme();
   const styles = useMemo(
@@ -51,6 +53,8 @@ export function EventPostCard({ event, likedBy, initiallyLiked, initiallyDabei }
         tint: { ...StyleSheet.absoluteFillObject, backgroundColor: "rgba(20,3,10,0.35)" },
         tag: { position: "absolute", top: 10, left: 10, backgroundColor: "rgba(255,255,255,0.25)", borderRadius: 5, paddingHorizontal: 8, paddingVertical: 3 },
         tagText: { color: "#fff", fontSize: 9.5, fontWeight: "700", textTransform: "uppercase" },
+        weatherTag: { position: "absolute", top: 10, right: 10, backgroundColor: "rgba(255,255,255,0.25)", borderRadius: 5, paddingHorizontal: 8, paddingVertical: 3 },
+        weatherTagText: { color: "#fff", fontSize: 11, fontWeight: "700" },
         mediaText: { position: "absolute", left: 14, right: 14, bottom: 12 },
         mediaTitle: { color: "#fff", fontSize: 18, fontWeight: "800" },
         mediaSub: { color: "rgba(255,255,255,0.9)", fontSize: 11, fontWeight: "500", marginTop: 2 },
@@ -68,6 +72,12 @@ export function EventPostCard({ event, likedBy, initiallyLiked, initiallyDabei }
       }),
     [colors],
   );
+
+  useEffect(() => {
+    const { lat, lon } = event.location;
+    if (typeof lat !== "number" || typeof lon !== "number") return;
+    getWeather(lat, lon, event.start, (url) => fetch(url).then((res) => res.text())).then(setWeather);
+  }, [event.location.lat, event.location.lon, event.start]);
 
   return (
     <View style={styles.card}>
@@ -87,6 +97,13 @@ export function EventPostCard({ event, likedBy, initiallyLiked, initiallyDabei }
         <View style={styles.tag}>
           <Text style={styles.tagText}>{CATEGORY_LABELS[event.category] ?? event.category}</Text>
         </View>
+        {weather ? (
+          <View style={styles.weatherTag}>
+            <Text style={styles.weatherTagText}>
+              {weather.icon} {Math.round(weather.maxTempC)}°
+            </Text>
+          </View>
+        ) : null}
         <View style={styles.mediaText}>
           <Text style={styles.mediaTitle}>{event.title}</Text>
           <Text style={styles.mediaSub}>{event.location.name}</Text>
