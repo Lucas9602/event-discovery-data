@@ -1,5 +1,5 @@
 # Superpowers scratch (task briefs, review diffs, fix reports — ephemeral, survives compaction but not meant for history)
 .superpowers/
 
-# Local dev helper — browser console snippet to seed test events, not real data
-seed-test-events.js
+# Local test fixture — fake events for browser testing, not real scraped data
+app/public/events.json
