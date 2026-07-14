@@ -8,7 +8,7 @@ import { filterEvents, type EventFilters } from "../lib/filterEvents";
 import { getEvents } from "../lib/getEvents";
 import type { EventRecord } from "../lib/types";
 
-const EVENTS_URL = "https://lucashaas.github.io/event-discovery-data/events.json";
+const EVENTS_URL = "https://Lucas9602.github.io/event-discovery-data/events.json";
 
 async function getCurrentPosition(): Promise<{ lat: number; lon: number }> {
   const { status } = await Location.requestForegroundPermissionsAsync();
