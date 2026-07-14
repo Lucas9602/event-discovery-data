@@ -1,12 +1,16 @@
-import { useMemo } from "react";
-import { StyleSheet, Switch, Text, View } from "react-native";
+import { useMemo, useState } from "react";
+import { Pressable, StyleSheet, Switch, Text, View } from "react-native";
 import { demoEvents, demoFriends } from "./demoData";
+import { LocationOnboarding } from "./LocationOnboarding";
+import { useLocation } from "./location";
 import { useTheme } from "./theme";
 
-const SETTINGS = ["Standort ändern", "Benachrichtigungen", "Über die App"];
+const INERT_SETTINGS = ["Benachrichtigungen", "Über die App"];
 
 export function ProfileScreen() {
   const { colors, isDark, toggle } = useTheme();
+  const { origin, radiusMeters } = useLocation();
+  const [editingLocation, setEditingLocation] = useState(false);
   const styles = useMemo(
     () =>
       StyleSheet.create({
@@ -30,6 +34,10 @@ export function ProfileScreen() {
     [colors],
   );
 
+  if (editingLocation) {
+    return <LocationOnboarding showRadiusSlider onDone={() => setEditingLocation(false)} />;
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.topbar}>
@@ -42,7 +50,9 @@ export function ProfileScreen() {
         </View>
         <View>
           <Text style={styles.name}>Lucas</Text>
-          <Text style={styles.loc}>Standort: Ihringen · 25 km Umkreis</Text>
+          <Text style={styles.loc}>
+            Standort: {origin?.label ?? "Nicht gesetzt"} · {Math.round(radiusMeters / 1000)} km Umkreis
+          </Text>
         </View>
       </View>
 
@@ -53,7 +63,11 @@ export function ProfileScreen() {
       </View>
 
       <Text style={styles.sectionTitle}>Einstellungen</Text>
-      {SETTINGS.map((label) => (
+      <Pressable style={styles.item} onPress={() => setEditingLocation(true)}>
+        <Text style={styles.itemLabel}>Standort ändern</Text>
+        <Text style={styles.itemChevron}>›</Text>
+      </Pressable>
+      {INERT_SETTINGS.map((label) => (
         <View key={label} style={styles.item}>
           <Text style={styles.itemLabel}>{label}</Text>
           <Text style={styles.itemChevron}>›</Text>

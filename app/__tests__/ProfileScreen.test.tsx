@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react-native";
+import { LocationProvider } from "../src/demo/location";
 import { ProfileScreen } from "../src/demo/ProfileScreen";
 import { ThemeProvider } from "../src/demo/theme";
 
@@ -10,7 +11,9 @@ describe("ProfileScreen dark mode toggle", () => {
   it("renders a Dark Mode switch that starts off", async () => {
     await render(
       <ThemeProvider>
-        <ProfileScreen />
+        <LocationProvider>
+          <ProfileScreen />
+        </LocationProvider>
       </ThemeProvider>,
     );
     const toggle = await screen.findByRole("switch");
@@ -20,7 +23,9 @@ describe("ProfileScreen dark mode toggle", () => {
   it("flips on press", async () => {
     await render(
       <ThemeProvider>
-        <ProfileScreen />
+        <LocationProvider>
+          <ProfileScreen />
+        </LocationProvider>
       </ThemeProvider>,
     );
     const toggle = await screen.findByRole("switch");
