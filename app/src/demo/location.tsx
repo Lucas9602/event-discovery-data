@@ -39,18 +39,16 @@ export function LocationProvider({ children }: { children: ReactNode }) {
       .catch(() => {});
   }, []);
 
-  function persist(next: StoredLocation) {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next)).catch(() => {});
-  }
+  useEffect(() => {
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ origin, radiusMeters })).catch(() => {});
+  }, [origin, radiusMeters]);
 
   function setOrigin(next: LocationOrigin) {
     setOriginState(next);
-    persist({ origin: next, radiusMeters });
   }
 
   function setRadiusMeters(next: number) {
     setRadiusMetersState(next);
-    persist({ origin, radiusMeters: next });
   }
 
   const value = useMemo<LocationContextValue>(

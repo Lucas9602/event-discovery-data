@@ -19,6 +19,14 @@ function Probe() {
       <Pressable onPress={() => setRadiusMeters(10000)}>
         <Text>set-radius</Text>
       </Pressable>
+      <Pressable
+        onPress={() => {
+          setOrigin({ lat: 50.11, lon: 8.68, label: "Bothtown" });
+          setRadiusMeters(12345);
+        }}
+      >
+        <Text>set-both</Text>
+      </Pressable>
     </>
   );
 }
@@ -60,6 +68,20 @@ describe("LocationProvider", () => {
     expect(await screen.findByText("10000")).toBeTruthy();
     const stored = JSON.parse((await AsyncStorage.getItem("demo.location"))!);
     expect(stored.radiusMeters).toBe(10000);
+  });
+
+  it("persists both origin and radius when both setters are invoked in the same synchronous handler", async () => {
+    await render(
+      <LocationProvider>
+        <Probe />
+      </LocationProvider>,
+    );
+    fireEvent.press(await screen.findByText("set-both"));
+    expect(await screen.findByText("Bothtown")).toBeTruthy();
+    expect(await screen.findByText("12345")).toBeTruthy();
+    const stored = JSON.parse((await AsyncStorage.getItem("demo.location"))!);
+    expect(stored.origin).toEqual({ lat: 50.11, lon: 8.68, label: "Bothtown" });
+    expect(stored.radiusMeters).toBe(12345);
   });
 
   it("loads a persisted origin and radius on mount", async () => {
