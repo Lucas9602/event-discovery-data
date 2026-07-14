@@ -51,7 +51,14 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # No ref: here would default to github.sha — the commit that *triggered*
+      # the run, frozen before the scrape job's own "Update scraped data"
+      # commit. Check out the branch name instead so this job picks up that
+      # commit, which is guaranteed to exist by the time this job starts
+      # (needs: scrape).
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
