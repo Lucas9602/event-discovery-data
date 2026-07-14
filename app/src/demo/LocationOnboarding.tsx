@@ -1,6 +1,6 @@
 import Slider from "@react-native-community/slider";
 import * as Location from "expo-location";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { geocodeForward, geocodeReverse } from "../lib/geocode";
 import { useLocation } from "./location";
@@ -31,6 +31,12 @@ export function LocationOnboarding({ showRadiusSlider = false, onDone }: Locatio
   const [query, setQuery] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [gpsLoading, setGpsLoading] = useState(false);
+  const [localRadius, setLocalRadius] = useState(radiusMeters);
+
+  useEffect(() => {
+    setLocalRadius(radiusMeters);
+  }, [radiusMeters]);
 
   const styles = useMemo(
     () =>
@@ -50,6 +56,7 @@ export function LocationOnboarding({ showRadiusSlider = false, onDone }: Locatio
 
   async function useDeviceLocation() {
     setError(null);
+    setGpsLoading(true);
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
@@ -64,12 +71,14 @@ export function LocationOnboarding({ showRadiusSlider = false, onDone }: Locatio
       onDone?.();
     } catch {
       setError(LOCATION_ERROR);
+    } finally {
+      setGpsLoading(false);
     }
   }
 
   async function confirmManual() {
-    if (!query.trim()) return;
     setError(null);
+    if (!query.trim()) return;
     setLoading(true);
     try {
       const result = await geocodeForward(query, fetchText);
@@ -89,8 +98,8 @@ export function LocationOnboarding({ showRadiusSlider = false, onDone }: Locatio
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Wo bist du unterwegs?</Text>
-      <Pressable style={styles.button} onPress={useDeviceLocation}>
-        <Text style={styles.buttonText}>Standort verwenden</Text>
+      <Pressable style={styles.button} onPress={useDeviceLocation} disabled={gpsLoading}>
+        {gpsLoading ? <ActivityIndicator color={colors.onAccent} /> : <Text style={styles.buttonText}>Standort verwenden</Text>}
       </Pressable>
       {error ? <Text style={styles.error}>{error}</Text> : null}
       <TextInput
@@ -105,8 +114,14 @@ export function LocationOnboarding({ showRadiusSlider = false, onDone }: Locatio
       </Pressable>
       {showRadiusSlider ? (
         <>
-          <Text style={styles.radiusLabel}>Umkreis: {Math.round(radiusMeters / 1000)} km</Text>
-          <Slider minimumValue={1000} maximumValue={100000} value={radiusMeters} onValueChange={setRadiusMeters} />
+          <Text style={styles.radiusLabel}>Umkreis: {Math.round(localRadius / 1000)} km</Text>
+          <Slider
+            minimumValue={1000}
+            maximumValue={100000}
+            value={radiusMeters}
+            onValueChange={setLocalRadius}
+            onSlidingComplete={setRadiusMeters}
+          />
           <Pressable style={styles.confirmButton} onPress={() => onDone?.()}>
             <Text style={styles.confirmButtonText}>Fertig</Text>
           </Pressable>
