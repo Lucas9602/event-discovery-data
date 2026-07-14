@@ -8,11 +8,12 @@ jest.mock("@react-native-async-storage/async-storage", () =>
 );
 
 function Probe() {
-  const { origin, radiusMeters, setOrigin, setRadiusMeters } = useLocation();
+  const { origin, radiusMeters, hydrated, setOrigin, setRadiusMeters } = useLocation();
   return (
     <>
       <Text>{origin ? origin.label : "none"}</Text>
       <Text>{radiusMeters}</Text>
+      <Text>{hydrated ? "hydrated:true" : "hydrated:false"}</Text>
       <Pressable onPress={() => setOrigin({ lat: 48.03, lon: 7.65, label: "Ihringen" })}>
         <Text>set-origin</Text>
       </Pressable>
@@ -96,6 +97,15 @@ describe("LocationProvider", () => {
     );
     expect(await screen.findByText("Testort")).toBeTruthy();
     expect(await screen.findByText("5000")).toBeTruthy();
+  });
+
+  it("hydrated becomes true once the initial load resolves, with or without a persisted value", async () => {
+    await render(
+      <LocationProvider>
+        <Probe />
+      </LocationProvider>,
+    );
+    expect(await screen.findByText("hydrated:true")).toBeTruthy();
   });
 
   it("never persists default state before the persisted value finishes loading", async () => {

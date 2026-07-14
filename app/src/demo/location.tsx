@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 export interface LocationOrigin {
   lat: number;
@@ -18,6 +18,7 @@ interface StoredLocation {
 interface LocationContextValue {
   origin: LocationOrigin | null;
   radiusMeters: number;
+  hydrated: boolean;
   setOrigin: (origin: LocationOrigin) => void;
   setRadiusMeters: (radius: number) => void;
 }
@@ -27,7 +28,7 @@ const LocationContext = createContext<LocationContextValue | null>(null);
 export function LocationProvider({ children }: { children: ReactNode }) {
   const [origin, setOriginState] = useState<LocationOrigin | null>(null);
   const [radiusMeters, setRadiusMetersState] = useState(DEFAULT_RADIUS_METERS);
-  const hydrated = useRef(false);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     AsyncStorage.getItem(STORAGE_KEY)
@@ -38,15 +39,13 @@ export function LocationProvider({ children }: { children: ReactNode }) {
         if (typeof parsed.radiusMeters === "number") setRadiusMetersState(parsed.radiusMeters);
       })
       .catch(() => {})
-      .finally(() => {
-        hydrated.current = true;
-      });
+      .finally(() => setHydrated(true));
   }, []);
 
   useEffect(() => {
-    if (!hydrated.current) return;
+    if (!hydrated) return;
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify({ origin, radiusMeters })).catch(() => {});
-  }, [origin, radiusMeters]);
+  }, [hydrated, origin, radiusMeters]);
 
   function setOrigin(next: LocationOrigin) {
     setOriginState(next);
@@ -57,8 +56,8 @@ export function LocationProvider({ children }: { children: ReactNode }) {
   }
 
   const value = useMemo<LocationContextValue>(
-    () => ({ origin, radiusMeters, setOrigin, setRadiusMeters }),
-    [origin, radiusMeters],
+    () => ({ origin, radiusMeters, hydrated, setOrigin, setRadiusMeters }),
+    [origin, radiusMeters, hydrated],
   );
 
   return <LocationContext.Provider value={value}>{children}</LocationContext.Provider>;
