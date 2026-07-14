@@ -68,7 +68,7 @@ describe("FavoritesProvider", () => {
 
     await waitFor(async () => {
       const stored = JSON.parse((await AsyncStorage.getItem("demo.favorites")) ?? "{}");
-      expect(stored).toEqual({ "1": "notif-1" });
+      expect(stored).toEqual({ "1": { notificationId: "notif-1", start: EVENT.start } });
     });
   });
 
@@ -81,7 +81,7 @@ describe("FavoritesProvider", () => {
     fireEvent.press(await screen.findByText("toggle"));
     await waitFor(async () => {
       const stored = JSON.parse((await AsyncStorage.getItem("demo.favorites")) ?? "{}");
-      expect(stored["1"]).toBe("notif-1");
+      expect(stored["1"]).toEqual({ notificationId: "notif-1", start: EVENT.start });
     });
 
     fireEvent.press(await screen.findByText("toggle"));
@@ -122,7 +122,43 @@ describe("FavoritesProvider", () => {
   });
 
   it("loads a persisted favorite on mount", async () => {
-    await AsyncStorage.setItem("demo.favorites", JSON.stringify({ "1": "notif-old" }));
+    await AsyncStorage.setItem(
+      "demo.favorites",
+      JSON.stringify({ "1": { notificationId: "notif-old", start: EVENT.start } }),
+    );
+    await render(
+      <FavoritesProvider>
+        <Probe />
+      </FavoritesProvider>,
+    );
+    expect(await screen.findByText("fav:true")).toBeTruthy();
+  });
+
+  it("prunes a favorite whose event started more than 24 hours ago", async () => {
+    const staleStart = new Date(Date.now() - 30 * 3600 * 1000).toISOString();
+    await AsyncStorage.setItem(
+      "demo.favorites",
+      JSON.stringify({ "1": { notificationId: "notif-old", start: staleStart } }),
+    );
+    await render(
+      <FavoritesProvider>
+        <Probe />
+      </FavoritesProvider>,
+    );
+    expect(await screen.findByText("fav:false")).toBeTruthy();
+
+    await waitFor(async () => {
+      const stored = JSON.parse((await AsyncStorage.getItem("demo.favorites")) ?? "{}");
+      expect(stored).toEqual({});
+    });
+  });
+
+  it("keeps a favorite whose event started less than 24 hours ago", async () => {
+    const recentStart = new Date(Date.now() - 1 * 3600 * 1000).toISOString();
+    await AsyncStorage.setItem(
+      "demo.favorites",
+      JSON.stringify({ "1": { notificationId: "notif-recent", start: recentStart } }),
+    );
     await render(
       <FavoritesProvider>
         <Probe />
