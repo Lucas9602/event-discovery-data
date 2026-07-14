@@ -62,6 +62,7 @@ export function LocationOnboarding({ showRadiusSlider = false, onDone }: Locatio
     const lat = parseFloat(manualLat);
     const lon = parseFloat(manualLon);
     if (Number.isNaN(lat) || Number.isNaN(lon)) return;
+    setError(null);
     setOrigin({ lat, lon, label: formatCoordLabel(lat, lon) });
     onDone?.();
   }
