@@ -22,7 +22,7 @@ export function DemoApp() {
 function DemoAppContent() {
   const [tab, setTab] = useState<DemoTab>("feed");
   const { colors } = useTheme();
-  const { origin } = useLocation();
+  const { origin, hydrated } = useLocation();
   const styles = useMemo(
     () =>
       StyleSheet.create({
@@ -42,6 +42,8 @@ function DemoAppContent() {
       }),
     [colors],
   );
+
+  if (!hydrated) return null;
 
   const screen = (
     <SafeAreaView style={styles.container}>
