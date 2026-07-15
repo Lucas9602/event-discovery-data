@@ -1,64 +1,64 @@
 [
   {
     "sourceId": "de-bw-bahlingen-gemeinde",
-    "lastRunAt": "2026-07-14T22:57:41.427Z",
-    "lastSuccessAt": "2026-07-14T22:57:41.427Z",
+    "lastRunAt": "2026-07-15T21:17:01.422Z",
+    "lastSuccessAt": "2026-07-15T21:17:01.422Z",
     "eventsFoundLastRun": 22,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-breisach-tourismus",
-    "lastRunAt": "2026-07-14T22:57:41.427Z",
-    "lastSuccessAt": "2026-07-14T22:57:41.427Z",
-    "eventsFoundLastRun": 3,
+    "lastRunAt": "2026-07-15T21:17:01.422Z",
+    "lastSuccessAt": "2026-07-15T21:17:01.422Z",
+    "eventsFoundLastRun": 1,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-eichstetten-gemeinde",
-    "lastRunAt": "2026-07-14T22:57:41.427Z",
-    "lastSuccessAt": "2026-07-14T22:57:41.427Z",
+    "lastRunAt": "2026-07-15T21:17:01.422Z",
+    "lastSuccessAt": "2026-07-15T21:17:01.422Z",
     "eventsFoundLastRun": 43,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-emmendingen-stadt",
-    "lastRunAt": "2026-07-14T22:57:41.427Z",
-    "lastSuccessAt": "2026-07-14T22:57:41.427Z",
-    "eventsFoundLastRun": 108,
+    "lastRunAt": "2026-07-15T21:17:01.422Z",
+    "lastSuccessAt": "2026-07-15T21:17:01.422Z",
+    "eventsFoundLastRun": 106,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-endingen-stadt",
-    "lastRunAt": "2026-07-14T22:57:41.427Z",
-    "lastSuccessAt": "2026-07-14T22:57:41.427Z",
-    "eventsFoundLastRun": 523,
+    "lastRunAt": "2026-07-15T21:17:01.422Z",
+    "lastSuccessAt": "2026-07-15T21:17:01.422Z",
+    "eventsFoundLastRun": 518,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-musikverein-ihringen",
-    "lastRunAt": "2026-07-14T22:57:41.427Z",
-    "lastSuccessAt": "2026-07-14T22:57:41.427Z",
+    "lastRunAt": "2026-07-15T21:17:01.422Z",
+    "lastSuccessAt": "2026-07-15T21:17:01.422Z",
     "eventsFoundLastRun": 10,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-riegel-gemeinde",
-    "lastRunAt": "2026-07-14T22:57:41.427Z",
-    "lastSuccessAt": "2026-07-14T22:57:41.427Z",
+    "lastRunAt": "2026-07-15T21:17:01.422Z",
+    "lastSuccessAt": "2026-07-15T21:17:01.422Z",
     "eventsFoundLastRun": 149,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-vogtsburg-stadt",
-    "lastRunAt": "2026-07-14T22:57:41.427Z",
-    "lastSuccessAt": "2026-07-14T22:57:41.427Z",
+    "lastRunAt": "2026-07-15T21:17:01.422Z",
+    "lastSuccessAt": "2026-07-15T21:17:01.422Z",
     "eventsFoundLastRun": 10,
     "consecutiveFailures": 0,
     "status": "ok"
