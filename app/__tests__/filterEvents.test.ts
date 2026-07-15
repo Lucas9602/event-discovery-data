@@ -78,4 +78,19 @@ describe("filterEvents", () => {
 
     expect(result.map((e) => e.id)).toEqual(["early", "middle", "late"]);
   });
+
+  it("filters by category when set", () => {
+    const wein = makeEvent({ id: "wein", category: "weinfest" });
+    const konzert = makeEvent({ id: "konzert", category: "konzert" });
+
+    const result = filterEvents([wein, konzert], { category: "weinfest" });
+
+    expect(result.map((e) => e.id)).toEqual(["wein"]);
+  });
+
+  it("returns all categories when no category filter is set", () => {
+    const wein = makeEvent({ id: "wein", category: "weinfest" });
+    const konzert = makeEvent({ id: "konzert", category: "konzert" });
+    expect(filterEvents([wein, konzert], {})).toHaveLength(2);
+  });
 });

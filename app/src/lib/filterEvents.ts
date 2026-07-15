@@ -6,6 +6,7 @@ export interface EventFilters {
   radiusMeters?: number;
   dateFrom?: string;
   dateTo?: string;
+  category?: string;
 }
 
 function hasCoords(event: EventRecord): boolean {
@@ -25,6 +26,7 @@ export function filterEvents(events: EventRecord[], filters: EventFilters): Even
 
     if (filters.dateFrom && event.start < filters.dateFrom) return false;
     if (filters.dateTo && event.start > filters.dateTo) return false;
+    if (filters.category && event.category !== filters.category) return false;
 
     return true;
   });
