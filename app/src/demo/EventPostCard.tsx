@@ -127,10 +127,10 @@ export function EventPostCard({ event, likedBy, initiallyLiked, initiallyDabei }
             color={favorited ? colors.accent : colors.textMuted}
           />
         </Pressable>
-        <Pressable onPress={() => exportToCalendar(event)} hitSlop={8} style={styles.actionIcon}>
+        <Pressable onPress={() => exportToCalendar(event).catch(() => {})} hitSlop={8} style={styles.actionIcon}>
           <Ionicons name="calendar-outline" size={18} color={colors.textMuted} />
         </Pressable>
-        <Pressable onPress={() => shareEvent(event)} hitSlop={8} style={styles.actionIcon}>
+        <Pressable onPress={() => shareEvent(event).catch(() => {})} hitSlop={8} style={styles.actionIcon}>
           <Ionicons name="share-outline" size={19} color={colors.textMuted} />
         </Pressable>
         <View style={styles.spacer} />
