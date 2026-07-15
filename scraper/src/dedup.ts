@@ -1,5 +1,5 @@
 import { distanceMeters } from "./geo";
-import { cleanDescription, computeEventId, dedupKey, normalizeCategory } from "./normalize";
+import { cleanDescription, computeEventId, dedupKey, isInternalClubBusiness, normalizeCategory } from "./normalize";
 import type { AdapterType, EventRecord, RawEvent } from "./types";
 
 const ADAPTER_PRIORITY: AdapterType[] = [
@@ -41,9 +41,13 @@ function canMerge(a: DedupEntry, b: DedupEntry): boolean {
 }
 
 export function mergeEvents(entries: DedupEntry[], nowIso: string): EventRecord[] {
+  const publicEntries = entries.filter(
+    (entry) => !isInternalClubBusiness(entry.rawEvent.title),
+  );
+
   const buckets = new Map<string, DedupEntry[][]>();
 
-  for (const entry of entries) {
+  for (const entry of publicEntries) {
     const key = dedupKey(entry.rawEvent.title, entry.rawEvent.start);
     const groups = buckets.get(key) ?? [];
 

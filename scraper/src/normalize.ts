@@ -90,6 +90,13 @@ export function normalizeCategory(raw: string | undefined, inferFrom?: string): 
   return "sonstiges";
 }
 
+const INTERNAL_CLUB_BUSINESS_PATTERN =
+  /versammlung|jahreshauptversammlung|\bsitzung\b|\bwahl\b|neuwahl|kassenbericht/i;
+
+export function isInternalClubBusiness(title: string): boolean {
+  return INTERNAL_CLUB_BUSINESS_PATTERN.test(title);
+}
+
 export function computeEventId(rawEvent: RawEvent, region: string): string {
   const key = [
     region,

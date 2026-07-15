@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { cleanDescription, computeEventId, dedupKey, normalizeCategory, normalizeTitle } from "../src/normalize";
+import {
+  cleanDescription,
+  computeEventId,
+  dedupKey,
+  isInternalClubBusiness,
+  normalizeCategory,
+  normalizeTitle,
+} from "../src/normalize";
 import type { RawEvent } from "../src/types";
 
 describe("normalizeTitle", () => {
@@ -140,5 +147,28 @@ describe("computeEventId", () => {
     };
     const other: RawEvent = { ...base, title: "Dorffest Eichstetten" };
     expect(computeEventId(base, "r")).not.toBe(computeEventId(other, "r"));
+  });
+});
+
+describe("isInternalClubBusiness", () => {
+  it("flags pure administrative meetings", () => {
+    expect(isInternalClubBusiness("Generalversammlung des FC Bayern-Fanclub Bahlingen e.V.")).toBe(true);
+    expect(isInternalClubBusiness("Mitgliederversammlung des Bahlinger Sport-Club e.V.")).toBe(true);
+    expect(isInternalClubBusiness("Jahreshauptversammlung")).toBe(true);
+    expect(isInternalClubBusiness("Einwohnerversammlung")).toBe(true);
+    expect(isInternalClubBusiness("Sitzung des Gemeinderats")).toBe(true);
+    expect(isInternalClubBusiness("Neuwahl des Vorstands")).toBe(true);
+    expect(isInternalClubBusiness("Kassenbericht 2026")).toBe(true);
+  });
+
+  it("does not flag public or celebratory events", () => {
+    expect(isInternalClubBusiness("Jubiläum \"50 Jahre TC Bahlingen e.V.\"")).toBe(false);
+    expect(isInternalClubBusiness("Königsschießen des Schützenverein Bahlingen e.V.")).toBe(false);
+    expect(isInternalClubBusiness("Ponynachmittag des Bahlinger Reit- und Fahrverein e.V.")).toBe(false);
+    expect(isInternalClubBusiness("Weinfest Ihringen")).toBe(false);
+  });
+
+  it("does not false-positive on 'Wahl' as a word fragment", () => {
+    expect(isInternalClubBusiness("Wahlfach-Vorstellung an der Schule")).toBe(false);
   });
 });

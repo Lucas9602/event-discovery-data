@@ -79,7 +79,7 @@ describe("mergeEvents", () => {
 
   it("sets lastSeenAt and defaults category to sonstiges when nothing can be inferred", () => {
     const a: RawEvent = {
-      title: "Generalversammlung",
+      title: "Gemeindeveranstaltung",
       start: "2026-08-15T18:00:00.000Z",
       sourceUrl: "https://a.test/1",
     };
@@ -107,5 +107,26 @@ describe("mergeEvents", () => {
     };
     const merged = mergeEvents([entry(a, "source-a", "ical")], now);
     expect(merged[0].description).toBe("Text mit Entity und doppeltem Leerzeichen");
+  });
+
+  it("drops internal club business events entirely", () => {
+    const meeting: RawEvent = {
+      title: "Mitgliederversammlung des SV Testhausen",
+      start: "2026-08-15T18:00:00.000Z",
+      sourceUrl: "https://a.test/1",
+    };
+    const festival: RawEvent = {
+      title: "Jubiläum 50 Jahre SV Testhausen",
+      start: "2026-08-16T18:00:00.000Z",
+      sourceUrl: "https://a.test/2",
+    };
+
+    const merged = mergeEvents(
+      [entry(meeting, "source-a", "ical"), entry(festival, "source-a", "ical")],
+      now,
+    );
+
+    expect(merged).toHaveLength(1);
+    expect(merged[0].title).toBe("Jubiläum 50 Jahre SV Testhausen");
   });
 });
