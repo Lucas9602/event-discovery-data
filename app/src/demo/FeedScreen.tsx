@@ -99,6 +99,15 @@ export function FeedScreen() {
     setRadiusMeters(Math.min(radiusMeters + RADIUS_STEP_METERS, MAX_RADIUS_METERS));
   }
 
+  function resetFilters() {
+    setCategory("alle");
+    setZeitraum("alle");
+    setCustomFrom("");
+    setCustomTo("");
+  }
+
+  const filtersActive = category !== "alle" || zeitraum !== "alle";
+
   return (
     <View style={styles.container}>
       <View style={styles.topbar}>
@@ -144,6 +153,13 @@ export function FeedScreen() {
           ) : events.length === 0 ? (
             <View style={styles.empty}>
               <Text style={styles.emptyText}>Keine Events verfügbar — später nochmal versuchen.</Text>
+            </View>
+          ) : filtersActive ? (
+            <View style={styles.empty}>
+              <Text style={styles.emptyText}>Keine Feste mit diesen Filtern gefunden.</Text>
+              <Pressable style={styles.emptyButton} onPress={resetFilters}>
+                <Text style={styles.emptyButtonText}>Filter zurücksetzen</Text>
+              </Pressable>
             </View>
           ) : (
             <View style={styles.empty}>
