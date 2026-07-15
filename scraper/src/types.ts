@@ -9,9 +9,12 @@ export type AdapterType =
 export const CATEGORIES = [
   "weinfest",
   "dorffest",
-  "vereins-sportfest",
   "konzert",
   "markt",
+  "fuehrung-tour",
+  "vereinsleben",
+  "geselligkeit",
+  "kultur",
   "sonstiges",
 ] as const;
 

@@ -10,10 +10,13 @@ import { useTheme } from "./theme";
 
 const CATEGORY_LABELS: Record<string, string> = {
   weinfest: "Weinfest",
-  dorffest: "Dorffest",
-  "vereins-sportfest": "Vereinssportfest",
+  dorffest: "Dorffest & Feste",
   konzert: "Konzert",
   markt: "Markt",
+  "fuehrung-tour": "Führung & Tour",
+  vereinsleben: "Vereinsleben",
+  geselligkeit: "Geselligkeit",
+  kultur: "Kultur",
   sonstiges: "Sonstiges",
 };
 

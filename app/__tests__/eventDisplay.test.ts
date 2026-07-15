@@ -20,9 +20,12 @@ describe("toDisplayEvent", () => {
   it.each([
     ["weinfest", "#b3123d", "lokalfeste-wein"],
     ["dorffest", "#3a6b5c", "lokalfeste-sommer"],
-    ["vereins-sportfest", "#c07a1e", "lokalfeste-sport"],
-    ["markt", "#5b3a6e", "lokalfeste-markt"],
     ["konzert", "#2b5f8a", "lokalfeste-konzert"],
+    ["markt", "#5b3a6e", "lokalfeste-markt"],
+    ["fuehrung-tour", "#6b5c3a", "lokalfeste-tour"],
+    ["vereinsleben", "#c07a1e", "lokalfeste-verein"],
+    ["geselligkeit", "#c1553a", "lokalfeste-cafe"],
+    ["kultur", "#2f7a6b", "lokalfeste-kultur"],
     ["sonstiges", "#5a5a5a", "lokalfeste-sonstiges"],
   ])("maps category %s to accent %s and image seed %s", (category, accent, seed) => {
     const result = toDisplayEvent(makeEvent({ category }));

@@ -48,13 +48,29 @@ describe("normalizeCategory", () => {
     expect(normalizeCategory(undefined, "Sommerfest der Gemeinde")).toBe("dorffest");
   });
 
-  it("infers vereins-sportfest from title/description keywords", () => {
+  it("infers vereinsleben from club-event keywords, including sport tournaments", () => {
     expect(normalizeCategory(undefined, "Fußballturnier der Jugendmannschaften")).toBe(
-      "vereins-sportfest",
+      "vereinsleben",
     );
-    expect(normalizeCategory(undefined, "Vereinsturnier SV Testhausen")).toBe(
-      "vereins-sportfest",
+    expect(normalizeCategory(undefined, "Jubiläum \"50 Jahre TC Bahlingen e.V.\"")).toBe(
+      "vereinsleben",
     );
+  });
+
+  it("infers fuehrung-tour from title/description keywords", () => {
+    expect(normalizeCategory(undefined, "Kellerführung bei den Winzern")).toBe("fuehrung-tour");
+    expect(normalizeCategory(undefined, "Wanderung im Herzen des Kaiserstuhls")).toBe(
+      "fuehrung-tour",
+    );
+  });
+
+  it("infers geselligkeit from title/description keywords", () => {
+    expect(normalizeCategory(undefined, "Bürgercafé im Gemeindehaus")).toBe("geselligkeit");
+    expect(normalizeCategory(undefined, "Offener Treff für alle")).toBe("geselligkeit");
+  });
+
+  it("infers kultur from title/description keywords", () => {
+    expect(normalizeCategory(undefined, "Ausstellung: Kunst am Kaiserstuhl")).toBe("kultur");
   });
 
   it("infers konzert from title/description keywords", () => {

@@ -59,12 +59,18 @@ export function dedupKey(title: string, isoDate: string): string {
 // bucket everything as "sonstiges", infer from title/description keywords.
 // This is a heuristic, not a classifier: it only catches strong, common
 // German signal words, and unmatched text still falls back to "sonstiges".
+// "fuehrung-tour" is checked before "weinfest": a winery tour/tasting like
+// "Kellerführung bei den Winzern" contains "Winzern", which would otherwise
+// match weinfest's /winzer/i first and shadow the more specific tour signal.
 const CATEGORY_KEYWORDS: Array<[Category, RegExp]> = [
+  ["fuehrung-tour", /f[uü]hrung|wanderung|rundgang|\btour\b/i],
   ["weinfest", /wein(fest|probe|tage|berg)|winzer/i],
   ["dorffest", /dorffest|stadtfest|sommerfest|herbstfest|fr[uü]hlingsfest|str[aä]ßenfest/i],
-  ["vereins-sportfest", /sportfest|turnier|sch[uü]tzenfest/i],
   ["konzert", /konzert|musical/i],
   ["markt", /\bmarkt\b|weihnachtsmarkt|flohmarkt|adventsmarkt/i],
+  ["geselligkeit", /caf[eé]|\btreff\b|stammtisch/i],
+  ["kultur", /ausstellung|vortrag/i],
+  ["vereinsleben", /jubil[aä]um|vereinsfeier|sportfest|turnier|sch[uü]tzenfest/i],
 ];
 
 function inferCategory(text: string): Category {
