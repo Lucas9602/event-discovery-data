@@ -13,7 +13,7 @@ function hasCoords(event: EventRecord): boolean {
 }
 
 export function filterEvents(events: EventRecord[], filters: EventFilters): EventRecord[] {
-  return events.filter((event) => {
+  const filtered = events.filter((event) => {
     if (filters.origin && filters.radiusMeters !== undefined) {
       if (!hasCoords(event)) return false;
       const distance = distanceMeters(filters.origin, {
@@ -28,4 +28,6 @@ export function filterEvents(events: EventRecord[], filters: EventFilters): Even
 
     return true;
   });
+
+  return filtered.sort((a, b) => a.start.localeCompare(b.start));
 }

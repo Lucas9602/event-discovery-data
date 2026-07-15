@@ -68,4 +68,14 @@ describe("filterEvents", () => {
     const result = filterEvents([event], { dateFrom: "2026-08-15T18:00:00.000Z" });
     expect(result).toHaveLength(1);
   });
+
+  it("returns events sorted chronologically by start date, regardless of input order", () => {
+    const late = makeEvent({ id: "late", start: "2026-09-01T10:00:00.000Z" });
+    const early = makeEvent({ id: "early", start: "2026-08-01T10:00:00.000Z" });
+    const middle = makeEvent({ id: "middle", start: "2026-08-15T10:00:00.000Z" });
+
+    const result = filterEvents([late, early, middle], {});
+
+    expect(result.map((e) => e.id)).toEqual(["early", "middle", "late"]);
+  });
 });
