@@ -10,7 +10,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { zeitraumToDateRange, type ZeitraumOption } from "../lib/dateRange";
+import { toEndOfDayIso, toStartOfDayIso, zeitraumToDateRange, type ZeitraumOption } from "../lib/dateRange";
 import { filterEvents } from "../lib/filterEvents";
 import { getEvents } from "../lib/getEvents";
 import type { EventRecord } from "../lib/types";
@@ -43,16 +43,6 @@ const ZEITRAUM_OPTIONS: ChipOption[] = [
   { value: "dieser-monat", label: "Dieser Monat" },
   { value: "zeitraum", label: "Zeitraum wählen" },
 ];
-
-function toStartOfDayIso(dateText: string): string | undefined {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateText)) return undefined;
-  return new Date(`${dateText}T00:00:00.000Z`).toISOString();
-}
-
-function toEndOfDayIso(dateText: string): string | undefined {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateText)) return undefined;
-  return new Date(`${dateText}T23:59:59.999Z`).toISOString();
-}
 
 export function FeedScreen() {
   const { colors } = useTheme();

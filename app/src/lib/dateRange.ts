@@ -32,3 +32,17 @@ export function zeitraumToDateRange(
 
   return {};
 }
+
+export function toStartOfDayIso(dateText: string): string | undefined {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateText)) return undefined;
+  const date = new Date(`${dateText}T00:00:00.000Z`);
+  if (Number.isNaN(date.getTime())) return undefined;
+  return date.toISOString();
+}
+
+export function toEndOfDayIso(dateText: string): string | undefined {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateText)) return undefined;
+  const date = new Date(`${dateText}T23:59:59.999Z`);
+  if (Number.isNaN(date.getTime())) return undefined;
+  return date.toISOString();
+}
