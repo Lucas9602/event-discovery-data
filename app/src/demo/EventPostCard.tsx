@@ -141,7 +141,7 @@ export function EventPostCard({ event, likedBy, initiallyLiked, initiallyDabei }
           {likedBy.map((f) => f.name).join(" und ")} {likedBy.length === 1 ? "gefällt das" : "sind dabei"}
         </Text>
       ) : (
-        <Text style={styles.likes}>{event.description}</Text>
+        <Text style={styles.likes} numberOfLines={3}>{event.description}</Text>
       )}
     </View>
   );
