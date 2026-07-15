@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computeEventId, dedupKey, normalizeCategory, normalizeTitle } from "../src/normalize";
+import { cleanDescription, computeEventId, dedupKey, normalizeCategory, normalizeTitle } from "../src/normalize";
 import type { RawEvent } from "../src/types";
 
 describe("normalizeTitle", () => {
@@ -71,6 +71,34 @@ describe("normalizeCategory", () => {
 
   it("falls back to sonstiges when no keyword matches, even with text provided", () => {
     expect(normalizeCategory(undefined, "Generalversammlung des Fanclubs")).toBe("sonstiges");
+  });
+});
+
+describe("cleanDescription", () => {
+  it("decodes common HTML entities", () => {
+    expect(cleanDescription("Termine:&nbsp;&nbsp;heute")).toBe("Termine: heute");
+  });
+
+  it("collapses runs of spaces from source text-reflow artifacts", () => {
+    expect(cleanDescription("Im Mittelpunkt st  ehen Erfahrungen")).toBe(
+      "Im Mittelpunkt st ehen Erfahrungen",
+    );
+  });
+
+  it("collapses a single mid-paragraph newline into a space", () => {
+    expect(cleanDescription("Die Graphic-Novel-Ausstellung zeigt Migra\ntion")).toBe(
+      "Die Graphic-Novel-Ausstellung zeigt Migra tion",
+    );
+  });
+
+  it("preserves a real paragraph break (double newline)", () => {
+    expect(cleanDescription("Erster Absatz.\n\nZweiter Absatz.")).toBe(
+      "Erster Absatz.\n\nZweiter Absatz.",
+    );
+  });
+
+  it("trims leading and trailing whitespace", () => {
+    expect(cleanDescription("  Text mit Rand  ")).toBe("Text mit Rand");
   });
 });
 

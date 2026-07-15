@@ -97,4 +97,15 @@ describe("mergeEvents", () => {
     const merged = mergeEvents([entry(a, "source-a", "ical")], now);
     expect(merged[0].category).toBe("konzert");
   });
+
+  it("cleans up description text (entities and spacing artifacts)", () => {
+    const a: RawEvent = {
+      title: "Ausstellung Test",
+      description: "Text mit&nbsp;Entity und  doppeltem Leerzeichen",
+      start: "2026-08-15T18:00:00.000Z",
+      sourceUrl: "https://a.test/1",
+    };
+    const merged = mergeEvents([entry(a, "source-a", "ical")], now);
+    expect(merged[0].description).toBe("Text mit Entity und doppeltem Leerzeichen");
+  });
 });

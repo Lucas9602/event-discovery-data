@@ -1,5 +1,5 @@
 import { distanceMeters } from "./geo";
-import { computeEventId, dedupKey, normalizeCategory } from "./normalize";
+import { cleanDescription, computeEventId, dedupKey, normalizeCategory } from "./normalize";
 import type { AdapterType, EventRecord, RawEvent } from "./types";
 
 const ADAPTER_PRIORITY: AdapterType[] = [
@@ -73,7 +73,9 @@ export function mergeEvents(entries: DedupEntry[], nowIso: string): EventRecord[
       records.push({
         id: computeEventId(canonical.rawEvent, canonical.region),
         title: canonical.rawEvent.title,
-        description: canonical.rawEvent.description,
+        description: canonical.rawEvent.description
+          ? cleanDescription(canonical.rawEvent.description)
+          : undefined,
         start: canonical.rawEvent.start,
         end: canonical.rawEvent.end,
         location: canonical.rawEvent.location ?? {},

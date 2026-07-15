@@ -8,6 +8,40 @@ const UMLAUT_MAP: Record<string, string> = {
   ß: "ss",
 };
 
+const HTML_ENTITIES: Record<string, string> = {
+  "&nbsp;": " ",
+  "&amp;": "&",
+  "&uuml;": "ü",
+  "&ouml;": "ö",
+  "&auml;": "ä",
+  "&Uuml;": "Ü",
+  "&Ouml;": "Ö",
+  "&Auml;": "Ä",
+  "&szlig;": "ß",
+};
+
+function decodeHtmlEntities(text: string): string {
+  let result = text;
+  for (const [entity, char] of Object.entries(HTML_ENTITIES)) {
+    result = result.split(entity).join(char);
+  }
+  return result;
+}
+
+// Source CMS description fields carry two artifacts of their own display
+// width: single newlines mid-paragraph (a wrap, not a real line break) and
+// runs of extra spaces where words got reflowed. Genuine paragraph breaks
+// (\n\n) must survive; everything else collapses to single spaces.
+export function cleanDescription(text: string): string {
+  const decoded = decodeHtmlEntities(text);
+  const paragraphMarker = "\x00";
+  const withParagraphsMarked = decoded.replace(/\n{2,}/g, paragraphMarker);
+  const unwrapped = withParagraphsMarked.replace(/\n/g, " ");
+  const collapsedSpaces = unwrapped.replace(/[ \t]+/g, " ");
+  const restored = collapsedSpaces.replace(new RegExp(paragraphMarker, "g"), "\n\n");
+  return restored.trim();
+}
+
 export function normalizeTitle(title: string): string {
   const lower = title.toLowerCase();
   const deUmlauted = lower.replace(/[äöüß]/g, (ch) => UMLAUT_MAP[ch] ?? ch);
