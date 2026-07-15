@@ -1,0 +1,8 @@
+{
+  "itemSelector": ".veranstaltungen-uebersicht__veranstaltung",
+  "titleSelector": "article h2 a",
+  "dateSelector": "article .mr-4",
+  "dateFormat": "DD.MM.YYYY",
+  "linkSelector": "article h2 a",
+  "linkAttr": "href"
+}

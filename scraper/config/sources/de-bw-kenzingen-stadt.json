@@ -1,0 +1,14 @@
+{
+  "id": "de-bw-kenzingen-stadt",
+  "name": "Stadt Kenzingen – Veranstaltungskalender",
+  "url": "https://www.kenzingen.de/gaeste/veranstaltungen/",
+  "region": "de-bw-kenzingen",
+  "adapterType": "template-scraper",
+  "adapterConfig": { "templateName": "komm-one-veranstaltungen-uebersicht-v1" },
+  "legal": {
+    "basis": "public",
+    "robotsChecked": "2026-07-15",
+    "notes": "Öffentlicher Amtskalender (Komm.ONE CMS, neuere Vue-basierte Variante als Ihringen). dateSelector nutzt die generische Bootstrap-Klasse .mr-4 und verlässt sich auf DOM-Reihenfolge (Datum ist das erste .mr-4-Element pro Eintrag) - funktionsfähig, aber fragiler als semantische Klassennamen; kein locationSelector, da Standort das dritte .mr-4-Element ist und der Adapter nur .first() unterstützt."
+  },
+  "active": true
+}

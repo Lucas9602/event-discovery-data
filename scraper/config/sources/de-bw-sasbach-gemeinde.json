@@ -1,0 +1,14 @@
+{
+  "id": "de-bw-sasbach-gemeinde",
+  "name": "Gemeinde Sasbach am Kaiserstuhl – Veranstaltungskalender",
+  "url": "https://www.gemeinde-sasbach.de/freizeit-erleben/events-feste/kalender?tx_hwveranstaltung_list%5Baction%5D=multiIcalExport&tx_hwveranstaltung_list%5Bcontroller%5D=VeranstaltungFrontend&tx_hwveranstaltung_list%5BsearchString%5D=none",
+  "region": "de-bw-sasbach",
+  "adapterType": "ical",
+  "adapterConfig": {},
+  "legal": {
+    "basis": "public",
+    "robotsChecked": "2026-07-15",
+    "notes": "Öffentlicher Amtskalender, gleiche Hirsch & Wölfl multiIcalExport-Route wie Emmendingen/Endingen/Eichstetten/Bahlingen, robots.txt frei. Kalenderseite selbst leitet weiter (303), Export-Route funktioniert trotzdem direkt."
+  },
+  "active": true
+}
