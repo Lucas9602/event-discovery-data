@@ -1,12 +1,14 @@
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import Anthropic from "@anthropic-ai/sdk";
 import { icalAdapter } from "./adapters/ical";
 import { rssAdapter } from "./adapters/rss";
 import { schemaOrgAdapter } from "./adapters/schemaOrg";
 import { templateScraperAdapter } from "./adapters/templateScraper";
-import { aiGenericAdapter } from "./adapters/aiGeneric";
+import { aiGenericAdapter, type AnthropicLike } from "./adapters/aiGeneric";
 import { getAdapter, registerAdapter } from "./adapters/registry";
+import { classifyUncategorized } from "./classify";
 import { type DedupEntry, mergeEvents } from "./dedup";
 import { geocodeRawEvent, loadGeocodeCache, saveGeocodeCache } from "./geocode";
 import { updateHealth } from "./health";
@@ -33,6 +35,11 @@ export interface RunScrapeOptions {
   fetchText: (url: string) => Promise<string>;
   sleep: (ms: number) => Promise<void>;
   now: () => string;
+  // Optional: re-classifies events the keyword heuristic left as "sonstiges"
+  // via Claude Haiku. Omitted entirely when no client is passed (e.g. no
+  // ANTHROPIC_API_KEY locally) - classification is an enhancement, never a
+  // requirement for the core scrape to succeed.
+  classifyClient?: AnthropicLike;
 }
 
 export interface RunScrapeResult {
@@ -101,7 +108,18 @@ export async function runScrape(options: RunScrapeOptions): Promise<RunScrapeRes
     health.push(updateHealth(previous, source.id, outcome, nowIso));
   }
 
-  const events = mergeEvents(dedupEntries, nowIso);
+  let events = mergeEvents(dedupEntries, nowIso);
+
+  if (options.classifyClient) {
+    try {
+      events = await classifyUncategorized(events, options.classifyClient);
+    } catch (err) {
+      // Classification is a quality enhancement, not core functionality -
+      // a failure here (rate limit, API outage) must never lose an entire
+      // run's worth of scraped events.
+      console.error("AI categorization failed, leaving events as-is:", err);
+    }
+  }
 
   mkdirSync(options.outDir, { recursive: true });
   writeFileSync(path.join(options.outDir, "events.json"), JSON.stringify(events, null, 2));
@@ -140,6 +158,7 @@ async function main() {
     },
     sleep: (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
     now: () => new Date().toISOString(),
+    classifyClient: process.env.ANTHROPIC_API_KEY ? new Anthropic() : undefined,
   });
   console.log(`Wrote ${result.events.length} events, ${result.health.length} health records.`);
 }
