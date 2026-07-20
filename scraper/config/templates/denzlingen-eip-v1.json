@@ -1,0 +1,7 @@
+{
+  "itemSelector": ".v_item",
+  "titleSelector": ".v_titel",
+  "dateSelector": ".v_datum",
+  "dateFormat": "DD. MMMM YYYY",
+  "descriptionSelector": ".v_content"
+}

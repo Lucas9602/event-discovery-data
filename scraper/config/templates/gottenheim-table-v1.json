@@ -1,0 +1,9 @@
+{
+  "itemSelector": "tr.tw, tr.tg, tr.tu",
+  "titleSelector": "td:nth-child(2)",
+  "dateSelector": "td:nth-child(1)",
+  "dateFormat": "DD. MMM",
+  "locationSelector": "td:nth-child(3)",
+  "linkSelector": "td:nth-child(2) a",
+  "linkAttr": "href"
+}

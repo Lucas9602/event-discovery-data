@@ -1,0 +1,14 @@
+{
+  "id": "de-bw-boetzingen-gemeinde",
+  "name": "Gemeinde Bötzingen – Veranstaltungskalender",
+  "url": "https://www.boetzingen.de/site/Boetzingen/zmservice/430432/ical/vevent.ics",
+  "region": "de-bw-boetzingen",
+  "adapterType": "ical",
+  "adapterConfig": {},
+  "legal": {
+    "basis": "public",
+    "robotsChecked": "2026-07-20",
+    "notes": "Öffentlicher Amtskalender (dvv-bw.de Portalplattform, gleiche Familie wie Merdingen/Ihringen), iCal-Export verifiziert live (20 echte VEVENTs). robots.txt: Disallow nur /common/, /master/, /zm/, /pirobase, /webadmin – der zmservice/.../ical-Pfad ist nicht betroffen, Crawl-delay 30 eingehalten."
+  },
+  "active": true
+}

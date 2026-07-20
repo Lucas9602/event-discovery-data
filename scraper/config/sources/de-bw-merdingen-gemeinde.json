@@ -1,0 +1,14 @@
+{
+  "id": "de-bw-merdingen-gemeinde",
+  "name": "Gemeinde Merdingen – Veranstaltungskalender",
+  "url": "https://www.merdingen.de/site/Merdingen/zmservice/135704/ical/vevent.ics",
+  "region": "de-bw-merdingen",
+  "adapterType": "ical",
+  "adapterConfig": {},
+  "legal": {
+    "basis": "public",
+    "robotsChecked": "2026-07-20",
+    "notes": "Öffentlicher Amtskalender (dvv-bw.de Portalplattform), iCal-Export verifiziert live (echte VEVENTs, z.B. 'z'Merdinge miteinander - Mittagstisch'). robots.txt: Disallow nur /common/, /master/, /zm/, /pirobase, /webadmin – der zmservice/.../ical-Pfad ist nicht betroffen, Crawl-delay 30 eingehalten."
+  },
+  "active": true
+}

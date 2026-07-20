@@ -1,0 +1,14 @@
+{
+  "id": "de-bw-karoevents",
+  "name": "KARO EVENTS – Konzerte & Open Airs (Emmendingen)",
+  "url": "https://karoevents.de/event",
+  "region": "de-bw-emmendingen",
+  "adapterType": "template-scraper",
+  "adapterConfig": { "templateName": "karoevents-v1" },
+  "legal": {
+    "basis": "public",
+    "robotsChecked": "2026-07-20",
+    "notes": "Private Konzert-/Eventagentur (KARO EVENTS Konzert- & Eventagentur GmbH & Co. KG, Teningen), aber öffentlich zugängliche, unbezahlte Übersichtsseite ihrer Ticket-Events (I EM MUSIC! Open Airs u.a., größtenteils in Emmendingen) - gleiche Kategorie wie die bereits vorhandene Musikverein-Ihringen-Quelle (privater Veranstalter, öffentliche Ankündigung, kein Login). Keine robots.txt vorhanden (404 statt Regeldatei) - per Konvention ohne explizite Sperre erlaubt. Titel/Datum/Ort stehen in einem gemeinsamen Textblock ('Titel | Datum | Ort') - neues 'titleSeparator'-Feld im Adapter ergänzt, um nur den Titel zu extrahieren; Ort bewusst nicht extrahiert (kein sauberer eigener Selektor vorhanden)."
+  },
+  "active": true
+}

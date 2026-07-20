@@ -1,0 +1,14 @@
+{
+  "id": "de-bw-march-gemeinde",
+  "name": "Gemeinde March – Veranstaltungskalender",
+  "url": "https://www.march.de/de/Aktuelles/Veranstaltungen",
+  "region": "de-bw-march",
+  "adapterType": "template-scraper",
+  "adapterConfig": { "templateName": "ceasy-v1" },
+  "legal": {
+    "basis": "public",
+    "robotsChecked": "2026-07-20",
+    "notes": "Öffentlicher Amtskalender (cEasy CMS von hitcom new media gmbh, byte-identische Markup-Struktur zu Riegel - bestehendes ceasy-v1-Template wiederverwendet, keine neue Template-Datei nötig). robots.txt hat keine Disallow-Einträge (leer)."
+  },
+  "active": true
+}

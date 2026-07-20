@@ -1,0 +1,14 @@
+{
+  "id": "de-bw-denzlingen-gemeinde",
+  "name": "Gemeinde Denzlingen – Veranstaltungen",
+  "url": "https://www.denzlingen.de/de/veranstaltungen/",
+  "region": "de-bw-denzlingen",
+  "adapterType": "template-scraper",
+  "adapterConfig": { "templateName": "denzlingen-eip-v1" },
+  "legal": {
+    "basis": "public",
+    "robotsChecked": "2026-07-20",
+    "notes": "Öffentlicher Amtskalender (eip-CMS), Datum als 'Mo, 20. Juli 2026' (voller deutscher Monatsname) - neues dateFormat 'DD. MMMM YYYY' im Adapter ergänzt. Kein linkSelector: die Detail-Links im Markup sind uneindeutig (Bild-Lightbox vs. 'mehr Informationen'-Link ohne stabile Klasse), Fallback auf die Übersichtsseite ist hier der sicherere Weg. robots.txt: Disallow nur /data/, /private/ - der Pfad ist nicht betroffen."
+  },
+  "active": true
+}

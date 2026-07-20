@@ -1,0 +1,10 @@
+{
+  "itemSelector": ".events-list > div.flex.relative.flex-col",
+  "titleSelector": ".font-semibold.text-primaryBlue",
+  "titleSeparator": "|",
+  "dateSelector": ".font-semibold.text-primaryBlue",
+  "dateFormat": "DD.MM.YYYY",
+  "descriptionSelector": ".sib-details-text",
+  "linkSelector": "a",
+  "linkAttr": "href"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "de-bw-ihringen-gemeinde",
+  "name": "Gemeinde Ihringen – Veranstaltungskalender",
+  "url": "https://www.ihringen.de/site/Ihringen-2022/zmservice/3190529/ical/vevent.ics",
+  "region": "de-bw-ihringen",
+  "adapterType": "ical",
+  "adapterConfig": {},
+  "legal": {
+    "basis": "public",
+    "robotsChecked": "2026-07-20",
+    "notes": "Öffentlicher Amtskalender (dvv-bw.de Portalplattform, ursprüngliche Design-Doc-Annahme 'Komm.ONE' war falsch, tatsächlich gleiche Familie wie Merdingen/Bötzingen). iCal-Export ist strukturell valide, aktuell aber 0 Events ('Keine Daten vorhanden', auch auf der eigenen Amtsseite so) - Quelle trotzdem aktiv, füllt sich über Zeit. robots.txt: Disallow nur /common/, /master/, /zm/, /pirobase, /webadmin, Crawl-delay 30 eingehalten."
+  },
+  "active": true
+}

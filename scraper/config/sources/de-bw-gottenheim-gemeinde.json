@@ -1,0 +1,14 @@
+{
+  "id": "de-bw-gottenheim-gemeinde",
+  "name": "Gemeinde Gottenheim – Veranstaltungen",
+  "url": "https://www.gottenheim.de/veranstaltung.php",
+  "region": "de-bw-gottenheim",
+  "adapterType": "template-scraper",
+  "adapterConfig": { "templateName": "gottenheim-table-v1" },
+  "legal": {
+    "basis": "public",
+    "robotsChecked": "2026-07-20",
+    "notes": "Öffentliche Amtstabelle, Datum als 'Di 21. Jul. 16:00' ohne Jahr (abgekürzter deutscher Monatsname) - neues dateFormat 'DD. MMM' mit Jahres-Rollover-Inferenz im Adapter ergänzt. robots.txt: Disallow /zentral/php/ und /*id=* - veranstaltung.php ohne Query-Parameter ist nicht betroffen."
+  },
+  "active": true
+}
