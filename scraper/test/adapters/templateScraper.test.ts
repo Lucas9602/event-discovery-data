@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { templateScraperAdapter } from "../../src/adapters/templateScraper";
+import { parseGermanMonthNameDate, templateScraperAdapter } from "../../src/adapters/templateScraper";
 import type { Source } from "../../src/types";
 
 const fixtureHtml = readFileSync(
@@ -36,6 +36,18 @@ const twoDigitYearHtml = readFileSync(
 );
 const attrDateHtml = readFileSync(
   path.join(__dirname, "../fixtures/template-scraper-attr-date.html"),
+  "utf-8",
+);
+const germanMonthYearHtml = readFileSync(
+  path.join(__dirname, "../fixtures/template-scraper-german-month-year.html"),
+  "utf-8",
+);
+const germanMonthNoYearHtml = readFileSync(
+  path.join(__dirname, "../fixtures/template-scraper-german-month-no-year.html"),
+  "utf-8",
+);
+const titleSeparatorHtml = readFileSync(
+  path.join(__dirname, "../fixtures/template-scraper-title-separator.html"),
   "utf-8",
 );
 
@@ -137,5 +149,104 @@ describe("templateScraperAdapter", () => {
     expect(events).toHaveLength(1);
     expect(events[0].title).toBe("Stadtfuehrung Breisach");
     expect(events[0].start).toBe(new Date("2026-07-15").toISOString());
+  });
+
+  it("extracts a full German month name date (DD. MMMM YYYY) with a weekday prefix", async () => {
+    const template = {
+      itemSelector: ".v_item",
+      titleSelector: ".v_titel",
+      dateSelector: ".v_datum",
+      dateFormat: "DD. MMMM YYYY",
+      descriptionSelector: ".v_content",
+    };
+    const source: Source = {
+      id: "test-template-source",
+      name: "Test Template Source",
+      url: "https://example.test/veranstaltungen",
+      region: "test-region",
+      adapterType: "template-scraper",
+      adapterConfig: { template },
+      legal: { basis: "public", robotsChecked: "2026-07-03" },
+      active: true,
+    };
+    const events = await templateScraperAdapter.fetchEvents(source, async () => germanMonthYearHtml);
+    expect(events).toHaveLength(1);
+    expect(events[0].title).toBe("Bücherwürmer (für Kindergartenkinder ab 3 Jahren)");
+    expect(events[0].start).toBe(new Date(2026, 6, 23).toISOString());
+  });
+
+  it("extracts an abbreviated German month name date (DD. MMM) with no year, entities decoded", async () => {
+    const template = {
+      itemSelector: "tr",
+      titleSelector: "td:nth-child(2)",
+      dateSelector: "td:nth-child(1)",
+      dateFormat: "DD. MMM",
+      locationSelector: "td:nth-child(3)",
+      linkSelector: "td:nth-child(2) a",
+      linkAttr: "href",
+    };
+    const source: Source = {
+      id: "test-template-source",
+      name: "Test Template Source",
+      url: "https://example.test/veranstaltung.php",
+      region: "test-region",
+      adapterType: "template-scraper",
+      adapterConfig: { template },
+      legal: { basis: "public", robotsChecked: "2026-07-03" },
+      active: true,
+    };
+    const events = await templateScraperAdapter.fetchEvents(source, async () => germanMonthNoYearHtml);
+    expect(events).toHaveLength(1);
+    expect(events[0].title).toBe("24.Gottenheimer Weinfest");
+    expect(events[0].location?.name).toBe("Rund ums Rathaus");
+    expect(events[0].sourceUrl).toBe("https://example.test/Weinfest/");
+  });
+
+  it("splits the title on titleSeparator when title/date/location share one text node", async () => {
+    const template = {
+      itemSelector: ".events-list > div.flex.relative.flex-col",
+      titleSelector: ".font-semibold.text-primaryBlue",
+      titleSeparator: "|",
+      dateSelector: ".font-semibold.text-primaryBlue",
+      dateFormat: "DD.MM.YYYY",
+      descriptionSelector: ".sib-details-text",
+      linkSelector: "a",
+      linkAttr: "href",
+    };
+    const source: Source = {
+      id: "test-template-source",
+      name: "Test Template Source",
+      url: "https://karoevents.de/event",
+      region: "test-region",
+      adapterType: "template-scraper",
+      adapterConfig: { template },
+      legal: { basis: "public", robotsChecked: "2026-07-20" },
+      active: true,
+    };
+    const events = await templateScraperAdapter.fetchEvents(source, async () => titleSeparatorHtml);
+    expect(events).toHaveLength(1);
+    expect(events[0].title).toBe("NENA – I EM MUSIC! 2026");
+    expect(events[0].start).toBe(new Date(2026, 6, 23).toISOString());
+    expect(events[0].sourceUrl).toBe("https://karoevents.de/event/nena-i-em-music-2026/");
+  });
+});
+
+describe("parseGermanMonthNameDate", () => {
+  it("keeps the current year when the date has not passed yet relative to referenceDate", () => {
+    const referenceDate = new Date(2026, 6, 1); // 1. Juli 2026
+    const iso = parseGermanMonthNameDate("Di 21. Jul. 16:00", false, referenceDate);
+    expect(iso).toBe(new Date(2026, 6, 21).toISOString());
+  });
+
+  it("rolls over to next year when the date has already passed relative to referenceDate", () => {
+    const referenceDate = new Date(2026, 11, 1); // 1. Dezember 2026
+    const iso = parseGermanMonthNameDate("Di 21. Jul. 16:00", false, referenceDate);
+    expect(iso).toBe(new Date(2027, 6, 21).toISOString());
+  });
+
+  it("throws a clear error when the text does not contain a recognizable German date", () => {
+    expect(() => parseGermanMonthNameDate("kein Datum hier", true)).toThrow(
+      'Cannot parse date "kein Datum hier" with format DD. MMMM YYYY',
+    );
   });
 });
