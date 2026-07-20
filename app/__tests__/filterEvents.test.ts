@@ -79,18 +79,34 @@ describe("filterEvents", () => {
     expect(result.map((e) => e.id)).toEqual(["early", "middle", "late"]);
   });
 
-  it("filters by category when set", () => {
+  it("filters by category when a single category is set", () => {
     const wein = makeEvent({ id: "wein", category: "weinfest" });
     const konzert = makeEvent({ id: "konzert", category: "konzert" });
 
-    const result = filterEvents([wein, konzert], { category: "weinfest" });
+    const result = filterEvents([wein, konzert], { categories: ["weinfest"] });
 
     expect(result.map((e) => e.id)).toEqual(["wein"]);
+  });
+
+  it("matches any of several selected categories", () => {
+    const wein = makeEvent({ id: "wein", category: "weinfest" });
+    const konzert = makeEvent({ id: "konzert", category: "konzert" });
+    const markt = makeEvent({ id: "markt", category: "markt" });
+
+    const result = filterEvents([wein, konzert, markt], { categories: ["weinfest", "konzert"] });
+
+    expect(result.map((e) => e.id)).toEqual(["wein", "konzert"]);
   });
 
   it("returns all categories when no category filter is set", () => {
     const wein = makeEvent({ id: "wein", category: "weinfest" });
     const konzert = makeEvent({ id: "konzert", category: "konzert" });
     expect(filterEvents([wein, konzert], {})).toHaveLength(2);
+  });
+
+  it("returns all categories when the categories array is empty", () => {
+    const wein = makeEvent({ id: "wein", category: "weinfest" });
+    const konzert = makeEvent({ id: "konzert", category: "konzert" });
+    expect(filterEvents([wein, konzert], { categories: [] })).toHaveLength(2);
   });
 });

@@ -42,7 +42,8 @@ describe("FeedScreen filter empty state", () => {
 
     await screen.findAllByText("Weinfest Ihringen");
 
-    fireEvent.press(screen.getByText("Konzert"));
+    await fireEvent.press(screen.getByLabelText("Filter öffnen"));
+    await fireEvent.press(screen.getByText("Konzert"));
 
     await waitFor(() => {
       expect(screen.getByText("Keine Feste mit diesen Filtern gefunden.")).toBeTruthy();
@@ -63,10 +64,11 @@ describe("FeedScreen filter empty state", () => {
     );
 
     await screen.findAllByText("Weinfest Ihringen");
-    fireEvent.press(screen.getByText("Konzert"));
+    await fireEvent.press(screen.getByLabelText("Filter öffnen"));
+    await fireEvent.press(screen.getByText("Konzert"));
     await screen.findByText("Filter zurücksetzen");
 
-    fireEvent.press(screen.getByText("Filter zurücksetzen"));
+    await fireEvent.press(screen.getByText("Filter zurücksetzen"));
 
     await screen.findAllByText("Weinfest Ihringen");
   });

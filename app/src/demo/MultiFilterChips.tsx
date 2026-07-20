@@ -1,18 +1,17 @@
 import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
+import type { ChipOption } from "./FilterChips";
 import { useTheme } from "./theme";
 
-export interface ChipOption {
-  value: string;
-  label: string;
-}
-
-interface FilterChipsProps {
+interface MultiFilterChipsProps {
   options: ChipOption[];
-  selected: string;
-  onSelect: (value: string) => void;
+  selected: string[];
+  onToggle: (value: string) => void;
 }
 
-export function FilterChips({ options, selected, onSelect }: FilterChipsProps) {
+// First option is always the "alle" sentinel (same convention as the
+// single-select FilterChips): active when nothing else is selected,
+// tapping it clears the selection instead of toggling itself in.
+export function MultiFilterChips({ options, selected, onToggle }: MultiFilterChipsProps) {
   const { colors } = useTheme();
 
   return (
@@ -23,11 +22,11 @@ export function FilterChips({ options, selected, onSelect }: FilterChipsProps) {
       contentContainerStyle={styles.content}
     >
       {options.map((option) => {
-        const active = option.value === selected;
+        const active = option.value === "alle" ? selected.length === 0 : selected.includes(option.value);
         return (
           <Pressable
             key={option.value}
-            onPress={() => onSelect(option.value)}
+            onPress={() => onToggle(option.value)}
             style={[
               styles.chip,
               { borderColor: colors.accent },
