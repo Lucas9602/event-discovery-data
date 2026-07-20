@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 import { toEndOfDayIso, toStartOfDayIso, zeitraumToDateRange } from "../lib/dateRange";
 import { filterEvents } from "../lib/filterEvents";
 import { getEvents } from "../lib/getEvents";
@@ -20,6 +20,7 @@ export function MapScreen() {
   const { origin, radiusMeters } = useLocation();
   const { selectedCategories, zeitraum, customFrom, customTo } = useFilters();
   const [events, setEvents] = useState<EventRecord[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
 
@@ -62,7 +63,7 @@ export function MapScreen() {
   }, []);
 
   useEffect(() => {
-    loadEvents();
+    loadEvents().finally(() => setLoading(false));
   }, [loadEvents]);
 
   const presetRange = zeitraumToDateRange(zeitraum, new Date());
@@ -111,7 +112,11 @@ export function MapScreen() {
         </View>
       ) : (
         <View style={styles.empty}>
-          <Text style={styles.emptyText}>Keine Feste mit Standort in diesem Umkreis gefunden.</Text>
+          {loading ? (
+            <ActivityIndicator color={colors.accent} />
+          ) : (
+            <Text style={styles.emptyText}>Keine Feste mit Standort in diesem Umkreis gefunden.</Text>
+          )}
         </View>
       )}
       {selectedEvent ? (
