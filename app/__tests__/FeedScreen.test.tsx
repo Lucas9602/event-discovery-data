@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react-native";
 import { FavoritesProvider } from "../src/demo/favorites";
 import { FeedScreen } from "../src/demo/FeedScreen";
+import { FilterProvider } from "../src/demo/filters";
 import { LocationProvider } from "../src/demo/location";
 import { ThemeProvider } from "../src/demo/theme";
 
@@ -34,7 +35,9 @@ describe("FeedScreen filter empty state", () => {
       <ThemeProvider>
         <LocationProvider>
           <FavoritesProvider>
-            <FeedScreen />
+            <FilterProvider>
+              <FeedScreen />
+            </FilterProvider>
           </FavoritesProvider>
         </LocationProvider>
       </ThemeProvider>,
@@ -57,7 +60,9 @@ describe("FeedScreen filter empty state", () => {
       <ThemeProvider>
         <LocationProvider>
           <FavoritesProvider>
-            <FeedScreen />
+            <FilterProvider>
+              <FeedScreen />
+            </FilterProvider>
           </FavoritesProvider>
         </LocationProvider>
       </ThemeProvider>,
