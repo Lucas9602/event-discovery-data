@@ -3,6 +3,7 @@ import { Platform, SafeAreaView, StyleSheet, View } from "react-native";
 import { FeedScreen } from "./FeedScreen";
 import { FriendsFeedScreen } from "./FriendsFeedScreen";
 import { FavoritesProvider } from "./favorites";
+import { FilterProvider } from "./filters";
 import { LocationOnboarding } from "./LocationOnboarding";
 import { LocationProvider, useLocation } from "./location";
 import { MapScreen } from "./MapScreen";
@@ -15,7 +16,9 @@ export function DemoApp() {
     <ThemeProvider>
       <LocationProvider>
         <FavoritesProvider>
-          <DemoAppContent />
+          <FilterProvider>
+            <DemoAppContent />
+          </FilterProvider>
         </FavoritesProvider>
       </LocationProvider>
     </ThemeProvider>
