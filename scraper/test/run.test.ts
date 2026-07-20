@@ -4,7 +4,7 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { runScrape } from "../src/run";
+import { decodeResponseText, runScrape } from "../src/run";
 
 const fixturesDir = path.join(__dirname, "fixtures/run");
 const brokenTemplateFixturesDir = path.join(__dirname, "fixtures/run-template-broken");
@@ -174,5 +174,26 @@ describe("runScrape", () => {
     } finally {
       rmSync(outDir, { recursive: true, force: true });
     }
+  });
+});
+
+describe("decodeResponseText", () => {
+  it("decodes as UTF-8 when no charset is declared", () => {
+    const buffer = new TextEncoder().encode("Bücherwürmer").buffer;
+    expect(decodeResponseText(buffer, null)).toBe("Bücherwürmer");
+  });
+
+  it("decodes as UTF-8 when the Content-Type declares charset=utf-8", () => {
+    const buffer = new TextEncoder().encode("Bücherwürmer").buffer;
+    expect(decodeResponseText(buffer, "text/html; charset=utf-8")).toBe("Bücherwürmer");
+  });
+
+  it("honors a non-UTF-8 charset instead of always decoding as UTF-8", () => {
+    const latin1Bytes = Buffer.from("Bücherwürmer", "latin1");
+    const buffer = latin1Bytes.buffer.slice(
+      latin1Bytes.byteOffset,
+      latin1Bytes.byteOffset + latin1Bytes.byteLength,
+    );
+    expect(decodeResponseText(buffer, "text/html; charset=iso-8859-1")).toBe("Bücherwürmer");
   });
 });

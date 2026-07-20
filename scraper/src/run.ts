@@ -111,6 +111,18 @@ export async function runScrape(options: RunScrapeOptions): Promise<RunScrapeRes
   return { events, health };
 }
 
+// Response.text() always decodes as UTF-8 per the Fetch spec, ignoring the
+// server's declared charset - most sources are UTF-8 already, but a source
+// declaring e.g. iso-8859-1 (Denzlingen) would come out as mojibake unless
+// we honor the real charset from the Content-Type header ourselves.
+export function decodeResponseText(buffer: ArrayBuffer, contentType: string | null): string {
+  const charset = contentType?.match(/charset=([^;]+)/i)?.[1]?.trim().toLowerCase();
+  if (charset && charset !== "utf-8" && charset !== "utf8") {
+    return new TextDecoder(charset).decode(buffer);
+  }
+  return new TextDecoder("utf-8").decode(buffer);
+}
+
 async function main() {
   const root = path.join(import.meta.dirname, "..");
   const result = await runScrape({
@@ -124,7 +136,7 @@ async function main() {
         headers: { "User-Agent": "kaiserstuhl-event-scraper/0.1 (lucas_haas@web.de)" },
       });
       if (!res.ok) throw new Error(`Fetch failed for ${url}: ${res.status}`);
-      return res.text();
+      return decodeResponseText(await res.arrayBuffer(), res.headers.get("content-type"));
     },
     sleep: (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
     now: () => new Date().toISOString(),
