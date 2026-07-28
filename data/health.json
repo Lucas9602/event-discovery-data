@@ -1,136 +1,136 @@
 [
   {
     "sourceId": "de-bw-bahlingen-gemeinde",
-    "lastRunAt": "2026-07-25T05:41:11.721Z",
-    "lastSuccessAt": "2026-07-25T05:41:11.721Z",
-    "eventsFoundLastRun": 20,
+    "lastRunAt": "2026-07-28T05:44:28.563Z",
+    "lastSuccessAt": "2026-07-28T05:44:28.563Z",
+    "eventsFoundLastRun": 18,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-boetzingen-gemeinde",
-    "lastRunAt": "2026-07-25T05:41:11.721Z",
-    "lastSuccessAt": "2026-07-25T05:41:11.721Z",
-    "eventsFoundLastRun": 29,
+    "lastRunAt": "2026-07-28T05:44:28.563Z",
+    "lastSuccessAt": "2026-07-28T05:44:28.563Z",
+    "eventsFoundLastRun": 27,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-breisach-tourismus",
-    "lastRunAt": "2026-07-25T05:41:11.721Z",
-    "lastSuccessAt": "2026-07-25T05:41:11.721Z",
+    "lastRunAt": "2026-07-28T05:44:28.563Z",
+    "lastSuccessAt": "2026-07-28T05:44:28.563Z",
     "eventsFoundLastRun": 3,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-denzlingen-gemeinde",
-    "lastRunAt": "2026-07-25T05:41:11.721Z",
-    "lastSuccessAt": "2026-07-25T05:41:11.721Z",
-    "eventsFoundLastRun": 42,
+    "lastRunAt": "2026-07-28T05:44:28.563Z",
+    "lastSuccessAt": "2026-07-28T05:44:28.563Z",
+    "eventsFoundLastRun": 41,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-eichstetten-gemeinde",
-    "lastRunAt": "2026-07-25T05:41:11.721Z",
-    "lastSuccessAt": "2026-07-25T05:41:11.721Z",
-    "eventsFoundLastRun": 38,
+    "lastRunAt": "2026-07-28T05:44:28.563Z",
+    "lastSuccessAt": "2026-07-28T05:44:28.563Z",
+    "eventsFoundLastRun": 36,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-emmendingen-stadt",
-    "lastRunAt": "2026-07-25T05:41:11.721Z",
-    "lastSuccessAt": "2026-07-25T05:41:11.721Z",
-    "eventsFoundLastRun": 120,
+    "lastRunAt": "2026-07-28T05:44:28.563Z",
+    "lastSuccessAt": "2026-07-28T05:44:28.563Z",
+    "eventsFoundLastRun": 110,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-endingen-stadt",
-    "lastRunAt": "2026-07-25T05:41:11.721Z",
-    "lastSuccessAt": "2026-07-25T05:41:11.721Z",
-    "eventsFoundLastRun": 463,
+    "lastRunAt": "2026-07-28T05:44:28.563Z",
+    "lastSuccessAt": "2026-07-28T05:44:28.563Z",
+    "eventsFoundLastRun": 487,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-gottenheim-gemeinde",
-    "lastRunAt": "2026-07-25T05:41:11.721Z",
-    "lastSuccessAt": "2026-07-25T05:41:11.721Z",
-    "eventsFoundLastRun": 60,
+    "lastRunAt": "2026-07-28T05:44:28.563Z",
+    "lastSuccessAt": "2026-07-28T05:44:28.563Z",
+    "eventsFoundLastRun": 59,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-ihringen-gemeinde",
-    "lastRunAt": "2026-07-25T05:41:11.721Z",
-    "lastSuccessAt": "2026-07-25T05:41:11.721Z",
+    "lastRunAt": "2026-07-28T05:44:28.563Z",
+    "lastSuccessAt": "2026-07-28T05:44:28.563Z",
     "eventsFoundLastRun": 1,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-karoevents",
-    "lastRunAt": "2026-07-25T05:41:11.721Z",
-    "lastSuccessAt": "2026-07-25T05:41:11.721Z",
+    "lastRunAt": "2026-07-28T05:44:28.563Z",
+    "lastSuccessAt": "2026-07-28T05:44:28.563Z",
     "eventsFoundLastRun": 24,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-kenzingen-stadt",
-    "lastRunAt": "2026-07-25T05:41:11.721Z",
-    "lastSuccessAt": "2026-07-25T05:41:11.721Z",
+    "lastRunAt": "2026-07-28T05:44:28.563Z",
+    "lastSuccessAt": "2026-07-28T05:44:28.563Z",
     "eventsFoundLastRun": 10,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-march-gemeinde",
-    "lastRunAt": "2026-07-25T05:41:11.721Z",
-    "lastSuccessAt": "2026-07-25T05:41:11.721Z",
-    "eventsFoundLastRun": 50,
+    "lastRunAt": "2026-07-28T05:44:28.563Z",
+    "lastSuccessAt": "2026-07-28T05:44:28.563Z",
+    "eventsFoundLastRun": 43,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-merdingen-gemeinde",
-    "lastRunAt": "2026-07-25T05:41:11.721Z",
-    "lastSuccessAt": "2026-07-25T05:41:11.721Z",
-    "eventsFoundLastRun": 23,
+    "lastRunAt": "2026-07-28T05:44:28.563Z",
+    "lastSuccessAt": "2026-07-28T05:44:28.563Z",
+    "eventsFoundLastRun": 19,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-musikverein-ihringen",
-    "lastRunAt": "2026-07-25T05:41:11.721Z",
-    "lastSuccessAt": "2026-07-25T05:41:11.721Z",
+    "lastRunAt": "2026-07-28T05:44:28.563Z",
+    "lastSuccessAt": "2026-07-28T05:44:28.563Z",
     "eventsFoundLastRun": 10,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-riegel-gemeinde",
-    "lastRunAt": "2026-07-25T05:41:11.721Z",
-    "lastSuccessAt": "2026-07-25T05:41:11.721Z",
-    "eventsFoundLastRun": 140,
+    "lastRunAt": "2026-07-28T05:44:28.563Z",
+    "lastSuccessAt": "2026-07-28T05:44:28.563Z",
+    "eventsFoundLastRun": 139,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-sasbach-gemeinde",
-    "lastRunAt": "2026-07-25T05:41:11.721Z",
-    "lastSuccessAt": "2026-07-25T05:41:11.721Z",
+    "lastRunAt": "2026-07-28T05:44:28.563Z",
+    "lastSuccessAt": "2026-07-28T05:44:28.563Z",
     "eventsFoundLastRun": 4,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-vogtsburg-stadt",
-    "lastRunAt": "2026-07-25T05:41:11.721Z",
-    "lastSuccessAt": "2026-07-25T05:41:11.721Z",
+    "lastRunAt": "2026-07-28T05:44:28.563Z",
+    "lastSuccessAt": "2026-07-28T05:44:28.563Z",
     "eventsFoundLastRun": 10,
     "consecutiveFailures": 0,
     "status": "ok"
