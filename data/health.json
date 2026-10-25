@@ -1,138 +1,138 @@
 [
   {
     "sourceId": "de-bw-bahlingen-gemeinde",
-    "lastRunAt": "2026-10-22T08:16:46.785Z",
-    "lastSuccessAt": "2026-10-22T08:16:46.785Z",
+    "lastRunAt": "2026-10-25T08:05:21.510Z",
+    "lastSuccessAt": "2026-10-25T08:05:21.510Z",
     "eventsFoundLastRun": 10,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-boetzingen-gemeinde",
-    "lastRunAt": "2026-10-22T08:16:46.785Z",
-    "lastSuccessAt": "2026-10-19T08:27:47.481Z",
-    "eventsFoundLastRun": 0,
-    "consecutiveFailures": 1,
+    "lastRunAt": "2026-10-25T08:05:21.510Z",
+    "lastSuccessAt": "2026-10-25T08:05:21.510Z",
+    "eventsFoundLastRun": 47,
+    "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-breisach-tourismus",
-    "lastRunAt": "2026-10-22T08:16:46.785Z",
-    "lastSuccessAt": "2026-10-22T08:16:46.785Z",
+    "lastRunAt": "2026-10-25T08:05:21.510Z",
+    "lastSuccessAt": "2026-10-25T08:05:21.510Z",
     "eventsFoundLastRun": 3,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-denzlingen-gemeinde",
-    "lastRunAt": "2026-10-22T08:16:46.785Z",
-    "lastSuccessAt": "2026-10-19T08:27:47.481Z",
-    "eventsFoundLastRun": 0,
-    "consecutiveFailures": 1,
+    "lastRunAt": "2026-10-25T08:05:21.510Z",
+    "lastSuccessAt": "2026-10-25T08:05:21.510Z",
+    "eventsFoundLastRun": 117,
+    "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-eichstetten-gemeinde",
-    "lastRunAt": "2026-10-22T08:16:46.785Z",
-    "lastSuccessAt": "2026-10-22T08:16:46.785Z",
-    "eventsFoundLastRun": 19,
+    "lastRunAt": "2026-10-25T08:05:21.510Z",
+    "lastSuccessAt": "2026-10-25T08:05:21.510Z",
+    "eventsFoundLastRun": 17,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-emmendingen-stadt",
-    "lastRunAt": "2026-10-22T08:16:46.785Z",
-    "lastSuccessAt": "2026-10-22T08:16:46.785Z",
-    "eventsFoundLastRun": 144,
+    "lastRunAt": "2026-10-25T08:05:21.510Z",
+    "lastSuccessAt": "2026-10-25T08:05:21.510Z",
+    "eventsFoundLastRun": 132,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-endingen-stadt",
-    "lastRunAt": "2026-10-22T08:16:46.785Z",
-    "lastSuccessAt": "2026-10-22T08:16:46.785Z",
-    "eventsFoundLastRun": 640,
+    "lastRunAt": "2026-10-25T08:05:21.510Z",
+    "lastSuccessAt": "2026-10-25T08:05:21.510Z",
+    "eventsFoundLastRun": 620,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-gottenheim-gemeinde",
-    "lastRunAt": "2026-10-22T08:16:46.785Z",
-    "lastSuccessAt": "2026-10-19T08:27:47.481Z",
-    "eventsFoundLastRun": 0,
-    "consecutiveFailures": 1,
+    "lastRunAt": "2026-10-25T08:05:21.510Z",
+    "lastSuccessAt": "2026-10-25T08:05:21.510Z",
+    "eventsFoundLastRun": 35,
+    "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-ihringen-gemeinde",
-    "lastRunAt": "2026-10-22T08:16:46.785Z",
-    "lastSuccessAt": "2026-10-19T08:27:47.481Z",
-    "eventsFoundLastRun": 0,
-    "consecutiveFailures": 1,
+    "lastRunAt": "2026-10-25T08:05:21.510Z",
+    "lastSuccessAt": "2026-10-25T08:05:21.510Z",
+    "eventsFoundLastRun": 2,
+    "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-karoevents",
-    "lastRunAt": "2026-10-22T08:16:46.785Z",
-    "lastSuccessAt": "2026-10-22T08:16:46.785Z",
+    "lastRunAt": "2026-10-25T08:05:21.510Z",
+    "lastSuccessAt": "2026-10-25T08:05:21.510Z",
     "eventsFoundLastRun": 24,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-kenzingen-stadt",
-    "lastRunAt": "2026-10-22T08:16:46.785Z",
-    "lastSuccessAt": "2026-10-22T08:16:46.785Z",
+    "lastRunAt": "2026-10-25T08:05:21.510Z",
+    "lastSuccessAt": "2026-10-25T08:05:21.510Z",
     "eventsFoundLastRun": 10,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-march-gemeinde",
-    "lastRunAt": "2026-10-22T08:16:46.785Z",
-    "lastSuccessAt": "2026-10-22T08:16:46.785Z",
-    "eventsFoundLastRun": 0,
+    "lastRunAt": "2026-10-25T08:05:21.510Z",
+    "lastSuccessAt": "2026-10-25T08:05:21.510Z",
+    "eventsFoundLastRun": 21,
     "consecutiveFailures": 0,
-    "status": "degraded"
+    "status": "ok"
   },
   {
     "sourceId": "de-bw-merdingen-gemeinde",
-    "lastRunAt": "2026-10-22T08:16:46.785Z",
-    "lastSuccessAt": "2026-10-19T08:27:47.481Z",
-    "eventsFoundLastRun": 0,
-    "consecutiveFailures": 1,
+    "lastRunAt": "2026-10-25T08:05:21.510Z",
+    "lastSuccessAt": "2026-10-25T08:05:21.510Z",
+    "eventsFoundLastRun": 9,
+    "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-musikverein-ihringen",
-    "lastRunAt": "2026-10-22T08:16:46.785Z",
-    "lastSuccessAt": "2026-10-22T08:16:46.785Z",
+    "lastRunAt": "2026-10-25T08:05:21.510Z",
+    "lastSuccessAt": "2026-10-25T08:05:21.510Z",
     "eventsFoundLastRun": 10,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-riegel-gemeinde",
-    "lastRunAt": "2026-10-22T08:16:46.785Z",
-    "lastSuccessAt": "2026-10-22T08:16:46.785Z",
-    "eventsFoundLastRun": 0,
+    "lastRunAt": "2026-10-25T08:05:21.510Z",
+    "lastSuccessAt": "2026-10-25T08:05:21.510Z",
+    "eventsFoundLastRun": 59,
     "consecutiveFailures": 0,
-    "status": "degraded"
+    "status": "ok"
   },
   {
     "sourceId": "de-bw-sasbach-gemeinde",
-    "lastRunAt": "2026-10-22T08:16:46.785Z",
-    "lastSuccessAt": "2026-10-22T08:16:46.785Z",
+    "lastRunAt": "2026-10-25T08:05:21.510Z",
+    "lastSuccessAt": "2026-10-25T08:05:21.510Z",
     "eventsFoundLastRun": 3,
     "consecutiveFailures": 0,
     "status": "ok"
   },
   {
     "sourceId": "de-bw-vogtsburg-stadt",
-    "lastRunAt": "2026-10-22T08:16:46.785Z",
-    "lastSuccessAt": "2026-10-19T08:27:47.481Z",
+    "lastRunAt": "2026-10-25T08:05:21.510Z",
+    "lastSuccessAt": "2026-10-25T08:05:21.510Z",
     "eventsFoundLastRun": 0,
-    "consecutiveFailures": 1,
+    "consecutiveFailures": 0,
     "status": "ok"
   }
 ]
